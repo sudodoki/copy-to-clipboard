@@ -1,12 +1,12 @@
 {
   "name": "copy-to-clipboard",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Copy stuff into clipboard using JS with fallbacks",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "sudodoki <smd.deluzion@gmail.com> (sudodoki.name)",
+  "keywords": ["clipboard", "copy", "browser"],
+  "author": "sudodoki <smd.deluzion@gmail.com>",
   "license": "MIT"
 }
