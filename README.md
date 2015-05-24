@@ -10,7 +10,7 @@ Simple module exposing `copy(input: text)` function that would try to use [execC
 
 Works everywhere where there's `prompt` available. Works best (i.e. without additional keystrokes) in Chrome and, supposedly, IE. FF support to come soon-ish.
 
-Note: **not working on mobile atm**
+Note: **not working on IOS atm**
 
 # See also
 [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility)
