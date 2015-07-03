@@ -23,12 +23,18 @@ function copy(text) {
       window.prompt('Copy to clipboard: Ctrl+C, Enter', text);
     }
   } finally {
-    if (typeof selection.removeRange == 'function') {
-      selection.removeRange(range);
-    } else {
-      selection.removeAllRanges();
+    if (selection) {
+      if (typeof selection.removeRange == 'function') {
+        selection.removeRange(range);
+      } else {
+        selection.removeAllRanges();
+      }
     }
-    document.body.removeChild(mark);
+
+    if (mark) {
+      document.body.removeChild(mark);
+    }
   }
 }
+
 module.exports = copy;
