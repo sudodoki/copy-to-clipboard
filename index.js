@@ -2,10 +2,11 @@ function copy(text) {
   var range = document.createRange();
   var newDiv = document.createElement("div");
   var newContent = document.createTextNode(text);
+  var selection = window.getSelection();
   newDiv.appendChild(newContent);
   document.body.appendChild(newDiv);
   range.selectNode(newDiv);
-  window.getSelection().addRange(range);
+  selection.addRange(range);
   try {
     var successful = document.execCommand('copy');
     if (!successful) {
@@ -20,10 +21,12 @@ function copy(text) {
       window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
     }
   } finally {
-    // Remove the selections - NOTE: Should use
-    // removeRange(range) when it is supported
+    if (typeof selection.removeRange == 'function') {
+      selection.removeRange(range);
+    } else {
+      selection.removeAllRanges();
+    }
     document.body.removeChild(newDiv);
-    window.getSelection().removeAllRanges();
   }
 }
 module.exports = copy;
