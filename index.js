@@ -3,7 +3,7 @@ function copy(text) {
     var range = document.createRange();
     var selection = document.getSelection();
 
-    var mark = document.createElement("mark");
+    var mark = document.createElement('mark');
     mark.textContent = text;
     document.body.appendChild(mark);
 
@@ -14,13 +14,13 @@ function copy(text) {
     if (!successful) {
       throw new Error('copy command was unsuccessful');
     }
-  } catch(err) {
+  } catch (err) {
     console.error('unable to copy, trying IE specific stuff');
     try {
-      window.clipboardData.setData("Text", text);
-    } catch(err) {
+      window.clipboardData.setData('text', text);
+    } catch (err) {
       console.error('unable to copy, falling back to prompt');
-      window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+      window.prompt('Copy to clipboard: Ctrl+C, Enter', text);
     }
   } finally {
     if (typeof selection.removeRange == 'function') {
