@@ -9,7 +9,7 @@ function copy(text) {
   try {
     var successful = document.execCommand('copy');
     if (!successful) {
-      throw(new Error('copy command was unsuccessful'));
+      throw new Error('copy command was unsuccessful');
     }
   } catch(err) {
     console.error('unable to copy, trying IE specific stuff');
