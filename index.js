@@ -1,13 +1,15 @@
 function copy(text) {
-  var range = document.createRange();
-  var newDiv = document.createElement("div");
-  var newContent = document.createTextNode(text);
-  var selection = window.getSelection();
-  newDiv.appendChild(newContent);
-  document.body.appendChild(newDiv);
-  range.selectNode(newDiv);
-  selection.addRange(range);
   try {
+    var range = document.createRange();
+    var selection = document.getSelection();
+
+    var mark = document.createElement("mark");
+    mark.textContent = text;
+    document.body.appendChild(mark);
+
+    range.selectNode(mark);
+    selection.addRange(range);
+
     var successful = document.execCommand('copy');
     if (!successful) {
       throw new Error('copy command was unsuccessful');
@@ -17,7 +19,7 @@ function copy(text) {
     try {
       window.clipboardData.setData("Text", text);
     } catch(err) {
-      console.error('unable to copy, fallback to prompt');
+      console.error('unable to copy, falling back to prompt');
       window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
     }
   } finally {
@@ -26,7 +28,7 @@ function copy(text) {
     } else {
       selection.removeAllRanges();
     }
-    document.body.removeChild(newDiv);
+    document.body.removeChild(mark);
   }
 }
 module.exports = copy;
