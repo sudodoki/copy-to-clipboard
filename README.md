@@ -12,6 +12,10 @@ Works everywhere where there's `prompt` available. Works best (i.e. without addi
 
 Note: **not working on IOS atm**
 
+# UI components based on this lib:
++ [react-copy-to-clipboard](https://github.com/nkbt/react-copy-to-clipboard)
++ [copy-button](https://github.com/sudodoki/copy-button)
+
 # See also
-[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility)
-[April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
++ [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility)
++ [April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
