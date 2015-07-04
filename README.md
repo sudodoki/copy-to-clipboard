@@ -12,7 +12,7 @@ Works everywhere where there's `prompt` available. Works best (i.e. without addi
 
 Note: **not working on IOS atm**
 
-# UI components based on this lib:
+# UI components based on this package:
 + [react-copy-to-clipboard](https://github.com/nkbt/react-copy-to-clipboard)
 + [copy-button](https://github.com/sudodoki/copy-button)
 
