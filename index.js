@@ -1,29 +1,40 @@
 function copy(text) {
-  var range = document.createRange();
-  var newDiv = document.createElement("div");
-  var newContent = document.createTextNode(text);
-  newDiv.appendChild(newContent);
-  document.body.appendChild(newDiv);
-  range.selectNode(newDiv);
-  window.getSelection().addRange(range);
   try {
+    var range = document.createRange();
+    var selection = document.getSelection();
+
+    var mark = document.createElement('mark');
+    mark.textContent = text;
+    document.body.appendChild(mark);
+
+    range.selectNode(mark);
+    selection.addRange(range);
+
     var successful = document.execCommand('copy');
     if (!successful) {
-      throw(new Error('copy command was unsuccessful'));
+      throw new Error('copy command was unsuccessful');
     }
-  } catch(err) {
+  } catch (err) {
     console.error('unable to copy, trying IE specific stuff');
     try {
-      window.clipboardData.setData("Text", text);
-    } catch(err) {
-      console.error('unable to copy, fallback to prompt');
-      window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+      window.clipboardData.setData('text', text);
+    } catch (err) {
+      console.error('unable to copy, falling back to prompt');
+      window.prompt('Copy to clipboard: Ctrl+C, Enter', text);
     }
   } finally {
-    // Remove the selections - NOTE: Should use
-    // removeRange(range) when it is supported
-    document.body.removeChild(newDiv);
-    window.getSelection().removeAllRanges();
+    if (selection) {
+      if (typeof selection.removeRange == 'function') {
+        selection.removeRange(range);
+      } else {
+        selection.removeAllRanges();
+      }
+    }
+
+    if (mark) {
+      document.body.removeChild(mark);
+    }
   }
 }
+
 module.exports = copy;
