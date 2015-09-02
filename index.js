@@ -1,9 +1,14 @@
-function copy(text) {
-  try {
-    var range = document.createRange();
-    var selection = document.getSelection();
+var deselectCurrent = require('toggle-selection');
 
-    var mark = document.createElement('mark');
+function copy(text) {
+  var reselectPrevious, selection, range, mark;
+  try {
+    reselectPrevious = deselectCurrent();
+
+    range = document.createRange();
+    selection = document.getSelection();
+
+    mark = document.createElement('mark');
     mark.textContent = text;
     document.body.appendChild(mark);
 
@@ -34,6 +39,7 @@ function copy(text) {
     if (mark) {
       document.body.removeChild(mark);
     }
+    reselectPrevious();
   }
 }
 

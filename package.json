@@ -1,12 +1,16 @@
 {
   "name": "copy-to-clipboard",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Copy stuff into clipboard using JS with fallbacks",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["clipboard", "copy", "browser"],
+  "keywords": [
+    "clipboard",
+    "copy",
+    "browser"
+  ],
   "author": "sudodoki <smd.deluzion@gmail.com>",
   "license": "MIT",
   "contributors": [
@@ -14,5 +18,8 @@
       "name": "Aleksej Shvajka",
       "url": "https://github.com/shvaikalesh"
     }
-  ]
+  ],
+  "dependencies": {
+    "toggle-selection": "^1.0.3"
+  }
 }
