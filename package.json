@@ -13,6 +13,10 @@
   ],
   "author": "sudodoki <smd.deluzion@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudodoki/copy-to-clipboard"
+  },
   "contributors": [
     {
       "name": "Aleksej Shvajka",
