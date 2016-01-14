@@ -2,7 +2,7 @@
     if (typeof define === 'function' && define.amd) {
         define(['toggle-selection'], factory);
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = module.exports.default = factory(require('toggle-selection'));
+        module.exports.default = module.exports = factory(require('toggle-selection'));
     } 
 }(this, function (deselectCurrent) {
     function copy(text) {
