@@ -9,7 +9,7 @@ function copy(text) {
     selection = document.getSelection();
 
     mark = document.createElement('mark');
-    mark.innerHTML = text;
+    mark.innerHTML = text.replace(/\n/g, '<br />');
     document.body.appendChild(mark);
 
     range.selectNode(mark);
