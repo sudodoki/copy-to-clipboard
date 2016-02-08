@@ -1,1 +1,4 @@
 node_modules
+*.cjs.js
+*.umd.js
+*.pack.js

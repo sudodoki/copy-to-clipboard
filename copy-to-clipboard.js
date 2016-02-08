@@ -1,6 +1,6 @@
-var deselectCurrent = require('toggle-selection');
+import deselectCurrent from 'toggle-selection';
 
-function copy(text) {
+export default function copy(text) {
   var reselectPrevious, selection, range, mark;
   try {
     reselectPrevious = deselectCurrent();
@@ -42,5 +42,4 @@ function copy(text) {
     reselectPrevious();
   }
 }
-
-module.exports = copy;
+    
