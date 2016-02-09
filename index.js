@@ -12,7 +12,7 @@ function copy(text, options) {
     selection = document.getSelection();
 
     mark = document.createElement('mark');
-    mark.innerHTML = text;
+    mark.innerText = text;
     document.body.appendChild(mark);
 
     range.selectNode(mark);
