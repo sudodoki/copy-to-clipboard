@@ -1,7 +1,10 @@
 var deselectCurrent = require('toggle-selection');
 
-function copy(text) {
-  var reselectPrevious, selection, range, mark;
+function copy(text, options) {
+  var reselectPrevious, selection, range, mark, debug, message;
+  debug = options.debug || false;
+  message = options.message || 'Copy to clipboard: Ctrl+C, Enter';
+
   try {
     reselectPrevious = deselectCurrent();
 
@@ -20,12 +23,12 @@ function copy(text) {
       throw new Error('copy command was unsuccessful');
     }
   } catch (err) {
-    console.error('unable to copy, trying IE specific stuff');
+    debug && console.error('unable to copy, trying IE specific stuff');
     try {
       window.clipboardData.setData('text', text);
     } catch (err) {
-      console.error('unable to copy, falling back to prompt');
-      window.prompt('Copy to clipboard: Ctrl+C, Enter', text);
+      debug && console.error('unable to copy, falling back to prompt');
+      window.prompt(message, text);
     }
   } finally {
     if (selection) {
