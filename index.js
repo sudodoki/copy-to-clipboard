@@ -13,7 +13,9 @@ function copy(text, options) {
     selection = document.getSelection();
 
     mark = document.createElement('mark');
-    mark.innerHTML = text;
+    mark.textContent = text;
+    // used to conserve newline, etc
+    mark.style.whiteSpace = 'pre';
     document.body.appendChild(mark);
 
     range.selectNode(mark);
