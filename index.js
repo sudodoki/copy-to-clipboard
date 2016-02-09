@@ -2,6 +2,7 @@ var deselectCurrent = require('toggle-selection');
 
 function copy(text, options) {
   var reselectPrevious, selection, range, mark, debug, message;
+  if (!options) { options = {}; }
   debug = options.debug || false;
   message = options.message || 'Copy to clipboard: Ctrl+C, Enter';
 
@@ -12,7 +13,9 @@ function copy(text, options) {
     selection = document.getSelection();
 
     mark = document.createElement('mark');
-    mark.innerHTML = text;
+    mark.textContent = text;
+    // used to conserve newline, etc
+    mark.style.whiteSpace = 'pre';
     document.body.appendChild(mark);
 
     range.selectNode(mark);
