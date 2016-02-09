@@ -2,6 +2,7 @@ var deselectCurrent = require('toggle-selection');
 
 function copy(text, options) {
   var reselectPrevious, selection, range, mark, debug, message;
+  if (!options) { options = {}; }
   debug = options.debug || false;
   message = options.message || 'Copy to clipboard: Ctrl+C, Enter';
 
