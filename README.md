@@ -29,11 +29,11 @@ copy('Text', {
 
 `*` - for Mac OS users message features `⌘` instead of `Ctrl`
 
-# Browser support
+# [Browser support](http://caniuse.com/#feat=document-execcommand)
 
-Works everywhere where there's `prompt` available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, Edge.
+Works everywhere where there's `prompt` available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, IE.
 
-Note: **not working on IOS atm**
+Note: **not working on some older IOS devices**
 
 # Installation
 
