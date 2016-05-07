@@ -1,3 +1,5 @@
+'use strict';
+
 var deselectCurrent = require('toggle-selection');
 
 var copyKey = /mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl';
