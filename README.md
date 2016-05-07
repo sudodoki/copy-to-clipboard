@@ -25,11 +25,13 @@ copy('Text', {
 |------|--------|-----|
 |options.debug  |false| `Boolean`. Optional. Enable output to console. |
 |options.message|Copy to clipboard: Ctrl+C, Enter|`String`. Optional. Prompt message.|
-|options.cb|noop|`Function`. Optional. Callback to be executed after successful copying.|
+|options.cb     |noop|`Function`. Optional. Callback to be executed after successful copying.|
+
+`*` - message features `⌘` instead of `Ctrl`
 
 # Browser support
 
-Works everywhere where there's `prompt` available. Works best (i.e. without additional keystrokes) in Chrome and, supposedly, IE. FF support to come soon-ish.
+Works everywhere where there's `prompt` available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, Edge.
 
 Note: **not working on IOS atm**
 
