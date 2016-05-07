@@ -1,11 +1,11 @@
 var deselectCurrent = require('toggle-selection');
 
 function copy(text, options) {
-  var reselectPrevious, selection, range, mark, debug, message;
+  var debug, message, cb, reselectPrevious, range, selection, mark;
   if (!options) { options = {}; }
   debug = options.debug || false;
   message = options.message || 'Copy to clipboard: Ctrl+C, Enter';
-
+  cb = options.cb || Function.prototype;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -32,8 +32,10 @@ function copy(text, options) {
     } catch (err) {
       debug && console.error('unable to copy, falling back to prompt');
       window.prompt(message, text);
+
     }
   } finally {
+    cb(null);
     if (selection) {
       if (typeof selection.removeRange == 'function') {
         selection.removeRange(range);
