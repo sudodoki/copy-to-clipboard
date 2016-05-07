@@ -35,6 +35,19 @@ Works everywhere where there's `prompt` available. Works best (i.e. without addi
 
 Note: **not working on IOS atm**
 
+# Installation
+
++ Can be used as npm package and then leveraged using commonjs bundler/loader.
+```
+npm i --save copy-to-clipboard
+```
++ Can be utilized using [wzrd.in](https://wzrd.in/).
+After adding following script to your page
+```
+<script src='https://wzrd.in/standalone/copy-to-clipboard@latest'></script>
+```
+You will have `window.copyToClipboard` exposed for you to use
+
 # UI components based on this package:
 + [react-copy-to-clipboard](https://github.com/nkbt/react-copy-to-clipboard)
 + [copy-button](https://github.com/sudodoki/copy-button)
