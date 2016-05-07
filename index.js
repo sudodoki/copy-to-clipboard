@@ -6,7 +6,7 @@ var copyKey = /mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl';
 var defaultMessage = 'Copy to clipboard: ' + copyKey + '+C, Enter';
 
 function copy(text, options) {
-  var debug, copyKey, message, cb, reselectPrevious, range, selection, mark;
+  var debug, message, cb, reselectPrevious, range, selection, mark;
   if (!options) { options = {}; }
   debug = options.debug || false;
   message = options.message || defaultMessage;
