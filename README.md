@@ -27,7 +27,7 @@ copy('Text', {
 |options.message|Copy to clipboard: Ctrl+C, Enter|`String`. Optional. Prompt message.|
 |options.cb     |noop|`Function`. Optional. Callback to be executed after successful copying.|
 
-`*` - message features `⌘` instead of `Ctrl`
+`*` - for Mac OS users message features `⌘` instead of `Ctrl`
 
 # Browser support
 
