@@ -25,7 +25,6 @@ copy('Text', {
 |------|--------|-----|
 |options.debug  |false| `Boolean`. Optional. Enable output to console. |
 |options.message|Copy to clipboard: Ctrl+C, Enter|`String`. Optional. Prompt message.|
-|options.cb     |noop|`Function`. Optional. Callback to be executed after successful copying.|
 
 `*` - for Mac OS users message features `⌘` instead of `Ctrl`
 

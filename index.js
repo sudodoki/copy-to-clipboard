@@ -6,11 +6,10 @@ var copyKey = /mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl';
 var defaultMessage = 'Copy to clipboard: ' + copyKey + '+C, Enter';
 
 function copy(text, options) {
-  var debug, message, cb, reselectPrevious, range, selection, mark;
+  var debug, message, reselectPrevious, range, selection, mark;
   if (!options) { options = {}; }
   debug = options.debug || false;
   message = options.message || defaultMessage;
-  cb = options.cb || Function.prototype;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -40,7 +39,6 @@ function copy(text, options) {
 
     }
   } finally {
-    cb(null);
     if (selection) {
       if (typeof selection.removeRange == 'function') {
         selection.removeRange(range);
