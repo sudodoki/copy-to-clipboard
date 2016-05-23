@@ -16,14 +16,12 @@ function copy(text, options) {
     range = document.createRange();
     selection = document.getSelection();
 
-    mark = document.createElement('mark');
-    mark.textContent = text;
-    // used to conserve newline, etc
-    mark.style.whiteSpace = 'pre';
+    mark = document.createElement('textarea');
+    mark.value = text;
+
     document.body.appendChild(mark);
 
-    range.selectNode(mark);
-    selection.addRange(range);
+    mark.select();
 
     var successful = document.execCommand('copy');
     if (!successful) {
