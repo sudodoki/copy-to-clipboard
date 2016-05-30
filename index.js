@@ -20,6 +20,14 @@ function copy(text, options) {
     mark.textContent = text;
     // used to conserve newline, etc
     mark.style.whiteSpace = 'pre';
+
+    // position fixed because MS Edge scroll to upcoming seleceting node
+    // apart from this part it scrolls to the end of page
+    mark.style.position = 'fixed';
+    mark.style.height = 0;
+    mark.style.width = 0;
+    mark.style.overflow = 'hidden';
+
     document.body.appendChild(mark);
 
     range.selectNode(mark);
