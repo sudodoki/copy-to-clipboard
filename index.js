@@ -23,9 +23,8 @@ function copy(text, options) {
 
     // prevents scrolling to the end of the page
     mark.style.position = 'fixed';
-    mark.style.height = 0;
-    mark.style.width = 0;
-    mark.style.overflow = 'hidden';
+    mark.style.top = '0';
+    mark.style.clip = 'rect(0px 0px 0px 0px)';
 
     document.body.appendChild(mark);
 
