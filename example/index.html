@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CopyButtonPlayground</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <h1 data-test="heading"><a href="http://github.com/sudodoki/copy-to-clipboard">copy-to-clipboard Repo</a></h1>
+  <textarea data-test="placeholder"></textarea>
+  <div class="container">
+    <h2 id="basic-text">Basic text copy</h2>
+    <textarea disabled class="code half">copyToClipboard("Hello, I'm new content from your clipboard")</textarea>
+    <div class="half">
+      <button data-test="init-basic-text">Click to copy sample text</button>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h2 id="multiline-text">Multiline text copy</h2>
+    <textarea disabled class="code half">
+This would be
+some multiline text
+for us to copy</textarea>
+    <div class="half">
+      <button data-test="init-multiline-text">Click to copy multiline text</button>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h2 id="multiline-markup">Markup + text copy</h2>
+    <textarea disabled class="code half">
+<script>
+  alert('this is some script')
+</script>
+</textarea>
+    <div class="half">
+      <button data-test="init-markup-text">Click to copy multiline text</button>
+    </div>
+  </div>
+  <hr>
+  <script src="./index.js"></script>
+  <script>
+    document.querySelector('#basic-text ~ .half button')
+      .addEventListener('click', function () {
+        copyToClipboard("Hello, I'm new content from your clipboard")
+      });
+    (function() {
+      var multilineContainer = document.querySelector('#multiline-text + textarea');
+      document.querySelector('#multiline-text ~ .half button')
+        .addEventListener('click', function () {
+          copyToClipboard(multilineContainer.textContent)
+        })
+    })();
+    (function() {
+      var markupContainer = document.querySelector('#multiline-markup + textarea');
+      document.querySelector('#multiline-markup ~ .half button')
+        .addEventListener('click', function () {
+          copyToClipboard(markupContainer.textContent)
+        })
+    })();
+
+  </script>
+</body>
+</html>
