@@ -1,4 +1,4 @@
-const path = require('path');
+'use strict';
 const os = require('os');
 const modificatorKey = (os.type().toLowerCase() === 'darwin')
  ? 'COMMAND'
@@ -8,7 +8,7 @@ module.exports = function(browser) {
    return {
       resetBuffer: function (text) {
         return browser
-          .url(`file:///${path.resolve(process.cwd(), browser.launchUrl)}`)
+          .url(browser.launchUrl)
           .waitForElementVisible('[data-test="placeholder"]', 10)
           .click('[data-test="placeholder"]')
           .keys(text || "some text to reset the clipboard")

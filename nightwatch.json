@@ -1,10 +1,10 @@
 {
   "src_folders" : ["tests"],
   "output_folder" : "reports",
-  "page_objects_path": "pages",
-  "custom_commands_path" : "commands",
-  "custom_assertions_path" : "assertions",
-  "globals_path" : "",
+  "page_objects_path": "e2e_helpers/pages",
+  "custom_commands_path" : "e2e_helpers/commands",
+  "custom_assertions_path" : "e2e_helpers/assertions",
+  "globals_path" : "e2e_helpers/globals.js",
   "selenium" : {
     "start_process" : true,
     "server_path" : "./node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-2.53.0.jar",
@@ -18,14 +18,24 @@
   },
   "test_settings" : {
     "default" : {
-      "/*launch_url*/": "Used with path.resolve to open files locally",
-      "launch_url" : "./example/index.html",
+      "launch_url" : "http://localhost:8080",
       "selenium_port"  : 4444,
       "selenium_host"  : "localhost",
       "silent": true,
       "screenshots" : {
         "enabled" : true,
-        "path" : "e2e/reports"
+        "path" : "reports"
+      }
+    },
+    "saucelabs" : {
+      "selenium_host": "ondemand.saucelabs.com",
+      "selenium_port": 80,
+      "username" : "${SAUCE_USERNAME}",
+      "access_key" : "${SAUCE_ACCESS_KEY}",
+      "desiredCapabilities": {
+        "name": "test-firefox",
+        "browserName": "firefox",
+        "tunnel-identifier": "${TRAVIS_JOB_NUMBER}"
       }
     }
   }

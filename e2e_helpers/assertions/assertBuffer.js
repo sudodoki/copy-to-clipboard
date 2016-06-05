@@ -1,4 +1,4 @@
-const path = require('path');
+'use strict';
 const util = require('util');
 const os = require('os');
 const modificatorKey = (os.type().toLowerCase() === 'darwin')
@@ -19,7 +19,7 @@ exports.assertion = function(expected, browser) {
   // TODO: generate element instead of using eisting one?
   this.command = function(callback) {
     return this.api
-      .url(`file:///${path.resolve(process.cwd(), this.api.launchUrl)}`)
+      .url(this.api.launchUrl)
       .waitForElementVisible('[data-test="placeholder"]', 10)
       .click('[data-test="placeholder"]')
       // This is not going to work in Chromedriver on Mac — https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
