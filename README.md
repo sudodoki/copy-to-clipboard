@@ -1,4 +1,4 @@
-# Copy to clipboard
+# Copy to clipboard [![Build Status](https://travis-ci.org/sudodoki/copy-to-clipboard.svg?branch=master)](https://travis-ci.org/sudodoki/copy-to-clipboard)
 
 Simple module exposing `copy(input: text)` function that would try to use [execCommand](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility) with fallback to IE specific `clipboardData` interface and finally, fallback to simple prompt with proper text content & 'Copy to clipboard: Ctrl+C, Enter'
 
