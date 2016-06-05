@@ -1,8 +1,8 @@
-const path = require('path');
+'use strict';
 module.exports = {
   'Sanity check' : function (browser) {
     browser
-      .url(`file:///${path.resolve(process.cwd(), browser.launchUrl)}`)
+      .url(browser.launchUrl)
       // uncomment for debug purposes
       // .getLogTypes(function(result) {
       //   console.log(result);
