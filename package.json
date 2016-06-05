@@ -4,7 +4,8 @@
   "description": "Copy stuff into clipboard using JS with fallbacks",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "browserify ./index.js -o ./example/index.js --standalone copyToClipboard",
+    "test": "nightwatch"
   },
   "keywords": [
     "clipboard",
@@ -25,5 +26,13 @@
   ],
   "dependencies": {
     "toggle-selection": "^1.0.3"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "nightwatch": "^0.9.1",
+    "selenium-server-standalone-jar": "2.53.0"
   }
 }
