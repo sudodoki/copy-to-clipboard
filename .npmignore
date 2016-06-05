@@ -1,5 +1,8 @@
-tests
-pages
+assertions
+commands
+e2e
 example
+pages
+tests
 nightwatch.json
 selenium-debug.log

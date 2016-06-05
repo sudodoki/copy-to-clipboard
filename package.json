@@ -27,6 +27,9 @@
   "dependencies": {
     "toggle-selection": "^1.0.3"
   },
+  "directories": {
+    "example": "example"
+  },
   "devDependencies": {
     "browserify": "^13.0.1",
     "nightwatch": "^0.9.1",

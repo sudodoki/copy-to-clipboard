@@ -54,3 +54,11 @@ You will have `window.copyToClipboard` exposed for you to use
 # See also
 + [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility)
 + [April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
+
+# Running Tests
+This project has some automated tests, that will run using [nightwatch](nightwatchjs.org) on top of [selenium](http://www.seleniumhq.org/)
+
+```
+npm i
+npm test
+```

@@ -3,7 +3,7 @@
   "output_folder" : "reports",
   "page_objects_path": "pages",
   "custom_commands_path" : "commands",
-  "custom_assertions_path" : "",
+  "custom_assertions_path" : "assertions",
   "globals_path" : "",
   "selenium" : {
     "start_process" : true,
@@ -26,12 +26,6 @@
       "screenshots" : {
         "enabled" : true,
         "path" : "e2e/reports"
-      }
-    },
-    "chrome" : {
-      "desiredCapabilities": {
-        "browserName": "chrome",
-        "javascriptEnabled": true
       }
     }
   }
