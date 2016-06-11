@@ -30,7 +30,7 @@ exports.assertion = function(expected) {
   this.command = function(callback) {
     return this.api
       .url(this.api.launchUrl)
-      .waitForElementVisible('[data-test="placeholder"]', 10)
+      .waitForElementVisible('[data-test="placeholder"]', 500)
       .click('[data-test="placeholder"]')
       // This is not going to work in Chromedriver on Mac — https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
       .keys([this.api.Keys[modificatorKey], 'v'])
