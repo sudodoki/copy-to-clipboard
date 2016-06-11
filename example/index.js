@@ -37,11 +37,13 @@ function copy(text, options) {
       throw new Error('copy command was unsuccessful');
     }
   } catch (err) {
-    debug && console.error('unable to copy, trying IE specific stuff');
+    debug && console.error('unable to copy using execCommand:', err);
+    debug && console.warn('trying IE specific stuff');
     try {
       window.clipboardData.setData('text', text);
     } catch (err) {
-      debug && console.error('unable to copy, falling back to prompt');
+      debug && console.error('unable to copy using clipboardData : ', err);
+      debug && console.error('falling back to prompt');
       window.prompt(message, text);
 
     }
