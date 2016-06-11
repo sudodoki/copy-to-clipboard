@@ -13,12 +13,14 @@ const modificatorKey = (() => {
     : 'CONTROL';
 })()
 
-exports.assertion = function(expected, browser) {
+exports.assertion = function(expected) {
   this.message = "Checking buffer contents";
-  this.expected = expected;
+  this.expected = (expected instanceof RegExp) ? "to match " + expected : expected;
 
   this.pass = function(value) {
-    return value === expected
+    return (expected instanceof RegExp)
+      ? expected.test(value)
+      : value === expected
   };
 
   this.value = function(value) {
