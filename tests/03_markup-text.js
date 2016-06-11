@@ -6,7 +6,8 @@ module.exports = {
       .url(browser.launchUrl)
       .waitForElementVisible('[data-test="init-markup-text"]', 1000)
       .click('[data-test="init-markup-text"]')
-      .assert.assertBuffer("<script>\n  alert('this is some script')\n</script>\n", browser)
+      // using regexp instead of actual match because of chrome issue
+      .assert.assertBuffer(/<script>\n\s+alert\('this is some script'\)\n<\/script>\n*/m)
       .end();
   }
 };

@@ -34,7 +34,9 @@
       "access_key" : "${SAUCE_ACCESS_KEY}",
       "desiredCapabilities": {
         "name": "test-firefox",
-        "browserName": "firefox",
+        "browserName": "${E2E_BROWSER_VENDOR}",
+        "platform": "${E2E_PLATFORM}",
+        "version": "${E2E_BROWSER_VERSION}",
         "tunnel-identifier": "${TRAVIS_JOB_NUMBER}"
       }
     }
