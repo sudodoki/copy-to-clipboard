@@ -1,9 +1,17 @@
 'use strict';
 const util = require('util');
 const os = require('os');
-const modificatorKey = (os.type().toLowerCase() === 'darwin')
-  ? 'COMMAND'
-  : 'CONTROL';
+
+const modificatorKey = (() => {
+  const usesCommandKey = () =>
+    (process.env.REMOTE_SELENIUM
+      ? (process.env.E2E_PLATFORM || '').match(/os\sx/i)
+      : os.type().toLowerCase() === 'darwin')
+
+  return usesCommandKey()
+    ? 'COMMAND'
+    : 'CONTROL';
+})()
 
 exports.assertion = function(expected, browser) {
   this.message = "Checking buffer contents";
