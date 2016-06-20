@@ -1,57 +1,55 @@
 # Copy to clipboard [![Build Status](https://travis-ci.org/sudodoki/copy-to-clipboard.svg?branch=master)](https://travis-ci.org/sudodoki/copy-to-clipboard)
 
-Simple module exposing `copy(input: text)` function that would try to use [execCommand](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility) with fallback to IE specific `clipboardData` interface and finally, fallback to simple prompt with proper text content & 'Copy to clipboard: Ctrl+C, Enter'
+Simple module exposing `copy` function that will try to use [execCommand](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#) with fallback to IE-specific `clipboardData` interface and finally, resort to usual `prompt` with proper text content and message.
 
 # Example
 
-```
+```js
 import copy from 'copy-to-clipboard';
 
 copy('Text');
 
-# Copy with options
+// Copy with options
 copy('Text', {
   debug: true,
-  message: 'Press ⌘-C to copy',
+  message: 'Press #{key} to copy',
 });
-
 ```
 
 # API
 
-`copy(input: text, options)` - tries to copy text to clipboard.
+`copy(text: string, options: object): void` &mdash; tries to copy text to clipboard.
 
 |Value |Default |Notes|
 |------|--------|-----|
 |options.debug  |false| `Boolean`. Optional. Enable output to console. |
-|options.message|Copy to clipboard: Ctrl+C, Enter|`String`. Optional. Prompt message.|
+|options.message|Copy to clipboard: `#{key}`, Enter| `String`. Optional. Prompt message. `*` |
 
-`*` - for Mac OS users message features `⌘` instead of `Ctrl`
+`*` all occurrences of `#{key}` are replaced with `⌘+C` for macOS/iOS users, and `Ctrl+C` otherwise.
 
 # [Browser support](http://caniuse.com/#feat=document-execcommand)
 
-Works everywhere where there's `prompt` available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, IE.
+Works everywhere where `prompt` is available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, IE/Edge.
 
-Note: **not working on some older IOS devices**
+Note: **does not work on some older iOS devices.**
 
 # Installation
 
-+ Can be used as npm package and then leveraged using commonjs bundler/loader.
++ Can be used as npm package and then leveraged using commonjs bundler/loader:
 ```
 npm i --save copy-to-clipboard
 ```
-+ Can be utilized using [wzrd.in](https://wzrd.in/).
-After adding following script to your page
++ Can be utilized using [wzrd.in](https://wzrd.in/). Add following script to your page:
+```html
+<script src="https://wzrd.in/standalone/copy-to-clipboard@latest" async></script>
 ```
-<script src='https://wzrd.in/standalone/copy-to-clipboard@latest'></script>
-```
-You will have `window.copyToClipboard` exposed for you to use
+You will have `window.copyToClipboard` exposed for you to use.
 
 # UI components based on this package:
 + [react-copy-to-clipboard](https://github.com/nkbt/react-copy-to-clipboard)
 + [copy-button](https://github.com/sudodoki/copy-button)
 
-# See also
+# See also:
 + [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility)
 + [April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
 
