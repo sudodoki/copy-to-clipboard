@@ -2,14 +2,18 @@
 
 var deselectCurrent = require('toggle-selection');
 
-var copyKey = /mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl';
-var defaultMessage = 'Copy to clipboard: ' + copyKey + '+C, Enter';
+var copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
+var defaultMessage = format('Copy to clipboard: #{key}, Enter');
+
+function format(message) {
+  return message.replace(/#{\s*key\s*}/g, copyKey);
+}
 
 function copy(text, options) {
   var debug, message, reselectPrevious, range, selection, mark;
   if (!options) { options = {}; }
   debug = options.debug || false;
-  message = options.message || defaultMessage;
+  message = "message" in options ? format(options.message) : defaultMessage;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -36,15 +40,14 @@ function copy(text, options) {
       throw new Error('copy command was unsuccessful');
     }
   } catch (err) {
-    debug && console.error('unable to copy using execCommand:', err);
+    debug && console.error('unable to copy using execCommand: ', err);
     debug && console.warn('trying IE specific stuff');
     try {
       window.clipboardData.setData('text', text);
     } catch (err) {
-      debug && console.error('unable to copy using clipboardData : ', err);
+      debug && console.error('unable to copy using clipboardData: ', err);
       debug && console.error('falling back to prompt');
       window.prompt(message, text);
-
     }
   } finally {
     if (selection) {
