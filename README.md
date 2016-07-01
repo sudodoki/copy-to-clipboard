@@ -55,6 +55,7 @@ You will have `window.copyToClipboard` exposed for you to use.
 
 # Running Tests
 This project has some automated tests, that will run using [nightwatch](nightwatchjs.org) on top of [selenium](http://www.seleniumhq.org/).
+To run tests in FireFox, you would need to install geckodriver.
 
 ```
 npm i
