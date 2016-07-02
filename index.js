@@ -22,7 +22,7 @@ function copy(text, options) {
 
     mark = document.createElement('mark');
     mark.textContent = text;
-    mark.style = [
+    mark.setAttribute('style', [
       // prevents scrolling to the end of the page
       'position: fixed',
       'top: 0',
@@ -34,7 +34,7 @@ function copy(text, options) {
       '-moz-user-select: text',
       '-ms-user-select: text',
       'user-select: text',
-    ].join(';');
+    ].join(';'));
 
     document.body.appendChild(mark);
 
