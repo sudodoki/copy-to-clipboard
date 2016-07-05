@@ -3,14 +3,18 @@
 
 var deselectCurrent = require('toggle-selection');
 
-var copyKey = /mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl';
-var defaultMessage = 'Copy to clipboard: ' + copyKey + '+C, Enter';
+var copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
+var defaultMessage = format('Copy to clipboard: #{key}, Enter');
+
+function format(message) {
+  return message.replace(/#{\s*key\s*}/g, copyKey);
+}
 
 function copy(text, options) {
   var debug, message, reselectPrevious, range, selection, mark;
   if (!options) { options = {}; }
   debug = options.debug || false;
-  message = options.message || defaultMessage;
+  message = 'message' in options ? format(options.message) : defaultMessage;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -19,13 +23,19 @@ function copy(text, options) {
 
     mark = document.createElement('mark');
     mark.textContent = text;
-    // used to conserve newline, etc
-    mark.style.whiteSpace = 'pre';
-
-    // prevents scrolling to the end of the page
-    mark.style.position = 'fixed';
-    mark.style.top = '0';
-    mark.style.clip = 'rect(0px 0px 0px 0px)';
+    mark.setAttribute('style', [
+      // prevents scrolling to the end of the page
+      'position: fixed',
+      'top: 0',
+      'clip: rect(0, 0, 0, 0)',
+      // used to preserve spaces and line breaks
+      'white-space: pre',
+      // do not inherit user-select (it may be `none`)
+      '-webkit-user-select: text',
+      '-moz-user-select: text',
+      '-ms-user-select: text',
+      'user-select: text',
+    ].join(';'));
 
     document.body.appendChild(mark);
 
@@ -37,15 +47,14 @@ function copy(text, options) {
       throw new Error('copy command was unsuccessful');
     }
   } catch (err) {
-    debug && console.error('unable to copy using execCommand:', err);
+    debug && console.error('unable to copy using execCommand: ', err);
     debug && console.warn('trying IE specific stuff');
     try {
       window.clipboardData.setData('text', text);
     } catch (err) {
-      debug && console.error('unable to copy using clipboardData : ', err);
+      debug && console.error('unable to copy using clipboardData: ', err);
       debug && console.error('falling back to prompt');
       window.prompt(message, text);
-
     }
   } finally {
     if (selection) {
