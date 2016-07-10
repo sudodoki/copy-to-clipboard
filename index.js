@@ -17,8 +17,8 @@ function copy(text, options) {
     selection = document.getSelection();
 
     mark = document.createElement('textarea');
-    mark.value = text;
-
+    mark.innerHTML = text;
+    mark.style.whiteSpace = 'pre';
     document.body.appendChild(mark);
 
     mark.select();
@@ -30,7 +30,7 @@ function copy(text, options) {
   } catch (err) {
     debug && console.error('unable to copy, trying IE specific stuff');
     try {
-      window.clipboardData.setData('text', text);
+      window.clipboardData.setData('TEXT', text);
     } catch (err) {
       debug && console.error('unable to copy, falling back to prompt');
       window.prompt(message, text);
