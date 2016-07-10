@@ -29,9 +29,10 @@ copy('Text', {
 
 # [Browser support](http://caniuse.com/#feat=document-execcommand)
 
-Works everywhere where `prompt` is available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, IE/Edge.
+Works everywhere where `prompt`* is available. Works best (i.e. without additional keystrokes) in Chrome, FF and, supposedly, IE/Edge.
 
 Note: **does not work on some older iOS devices.**
+`*` – even though **Safari 8** has `prompt`, you cannot specify prefilled content for prompt modal – thus it **doesn't work** as expected. 
 
 # Installation
 
