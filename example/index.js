@@ -11,7 +11,7 @@ function format(message) {
 }
 
 function copy(text, options) {
-  var debug, message, reselectPrevious, range, selection, mark;
+  var debug, message, reselectPrevious, range, selection, mark, success = false;
   if (!options) { options = {}; }
   debug = options.debug || false;
   try {
@@ -45,11 +45,13 @@ function copy(text, options) {
     if (!successful) {
       throw new Error('copy command was unsuccessful');
     }
+    success = true;
   } catch (err) {
     debug && console.error('unable to copy using execCommand: ', err);
     debug && console.warn('trying IE specific stuff');
     try {
       window.clipboardData.setData('text', text);
+      success = true;
     } catch (err) {
       debug && console.error('unable to copy using clipboardData: ', err);
       debug && console.error('falling back to prompt');
@@ -70,6 +72,8 @@ function copy(text, options) {
     }
     reselectPrevious();
   }
+
+  return success;
 }
 
 module.exports = copy;
@@ -83,11 +87,11 @@ module.exports = function () {
     return function () {};
   }
   var active = document.activeElement;
-  var ranges = Array.apply(Array, {
-    length: selection.rangeCount
-  }).map(function(range, index) {
-    return selection.getRangeAt(index);
-  });
+
+  var ranges = [];
+  for (var i = 0; i < selection.rangeCount; i++) {
+    ranges.push(selection.getRangeAt(i));
+  }
 
   switch (active.tagName.toUpperCase()) { // .toUpperCase handles XHTML
     case 'INPUT':
