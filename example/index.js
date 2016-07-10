@@ -3,10 +3,10 @@
 
 var deselectCurrent = require('toggle-selection');
 
-var copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
-var defaultMessage = format('Copy to clipboard: #{key}, Enter');
+var defaultMessage = 'Copy to clipboard: #{key}, Enter';
 
 function format(message) {
+  var copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
   return message.replace(/#{\s*key\s*}/g, copyKey);
 }
 
@@ -14,7 +14,6 @@ function copy(text, options) {
   var debug, message, reselectPrevious, range, selection, mark;
   if (!options) { options = {}; }
   debug = options.debug || false;
-  message = 'message' in options ? format(options.message) : defaultMessage;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -54,6 +53,7 @@ function copy(text, options) {
     } catch (err) {
       debug && console.error('unable to copy using clipboardData: ', err);
       debug && console.error('falling back to prompt');
+      message = format('message' in options ? options.message : defaultMessage);
       window.prompt(message, text);
     }
   } finally {
@@ -83,11 +83,11 @@ module.exports = function () {
     return function () {};
   }
   var active = document.activeElement;
-
-  var ranges = [];
-  for (var i = 0; i < selection.rangeCount; i++) {
-    ranges.push(selection.getRangeAt(i));
-  }
+  var ranges = Array.apply(Array, {
+    length: selection.rangeCount
+  }).map(function(range, index) {
+    return selection.getRangeAt(index);
+  });
 
   switch (active.tagName.toUpperCase()) { // .toUpperCase handles XHTML
     case 'INPUT':
