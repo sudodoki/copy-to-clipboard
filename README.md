@@ -18,7 +18,7 @@ copy('Text', {
 
 # API
 
-`copy(text: string, options: object): void` &mdash; tries to copy text to clipboard.
+`copy(text: string, options: object): boolean` &mdash; tries to copy text to clipboard. Returns `true` if no additional keystrokes were required from user (so, `execCommand`, IE's `clipboardData` worked) or `false`.
 
 |Value |Default |Notes|
 |------|--------|-----|
