@@ -19,9 +19,11 @@ function copy(text, options) {
     range = document.createRange();
     selection = document.getSelection();
 
-    mark = document.createElement('mark');
+    mark = document.createElement('span');
     mark.textContent = text;
     mark.setAttribute('style', [
+      // reset user styles for span element
+      'all: unset',
       // prevents scrolling to the end of the page
       'position: fixed',
       'top: 0',
