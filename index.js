@@ -5,7 +5,12 @@ var deselectCurrent = require('toggle-selection');
 var defaultMessage = 'Copy to clipboard: #{key}, Enter';
 
 function format(message) {
-  var copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
+  var copyKey;
+  if (typeof navigator === 'undefined') {
+    copyKey = 'Ctrl/⌘ + C'
+  } else {
+    copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
+  }
   return message.replace(/#{\s*key\s*}/g, copyKey);
 }
 
