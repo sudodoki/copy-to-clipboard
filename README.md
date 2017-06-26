@@ -51,6 +51,7 @@ You will have `window.copyToClipboard` exposed for you to use.
 + [copy-button](https://github.com/sudodoki/copy-button)
 
 # See also:
++ [clipboard-copy](https://github.com/feross/clipboard-copy) by [@feross](https://github.com/feross)
 + [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#Browser_Compatibility)
 + [April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
 
