@@ -3,6 +3,7 @@
   "version": "3.0.6",
   "description": "Copy stuff into clipboard using JS with fallbacks",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "pretest": "browserify ./index.js -o ./example/index.js --standalone copyToClipboard",
     "test": "nightwatch"
