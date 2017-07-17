@@ -61,3 +61,9 @@ This project has some automated tests, that will run using [nightwatch](nightwat
 npm i
 npm test
 ```
+# Typescript
+This library has built-in Typescript definitions.
+
+```
+import * as copy from 'copy-to-clipboard';
+```
