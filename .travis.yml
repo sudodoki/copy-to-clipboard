@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "4.2"
+  - node
 
 env:
   - E2E_BROWSER_VENDOR="internet explorer" E2E_PLATFORM="Windows 8.1" E2E_BROWSER_VERSION="latest"
