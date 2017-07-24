@@ -20,21 +20,21 @@ function copy(text, options) {
     range = document.createRange();
     selection = document.getSelection();
 
-    mark = document.createElement('mark');
+    mark = document.createElement('span');
     mark.textContent = text;
-    mark.setAttribute('style', [
-      // prevents scrolling to the end of the page
-      'position: fixed',
-      'top: 0',
-      'clip: rect(0, 0, 0, 0)',
-      // used to preserve spaces and line breaks
-      'white-space: pre',
-      // do not inherit user-select (it may be `none`)
-      '-webkit-user-select: text',
-      '-moz-user-select: text',
-      '-ms-user-select: text',
-      'user-select: text',
-    ].join(';'));
+    // reset user styles for span element
+    mark.style.all = 'unset';
+    // prevents scrolling to the end of the page
+    mark.style.position = 'fixed';
+    mark.style.top = 0;
+    mark.style.clip = 'rect(0, 0, 0, 0)';
+    // used to preserve spaces and line breaks
+    mark.style.whiteSpace = 'pre';
+    // do not inherit user-select (it may be `none`)
+    mark.style.webkitUserSelect = 'text';
+    mark.style.MozUserSelect = 'text';
+    mark.style.msUserSelect = 'text';
+    mark.style.userSelect = 'text';
 
     document.body.appendChild(mark);
 
@@ -79,7 +79,6 @@ function copy(text, options) {
 module.exports = copy;
 
 },{"toggle-selection":2}],2:[function(require,module,exports){
-var module = module || {};
 
 module.exports = function () {
   var selection = document.getSelection();
