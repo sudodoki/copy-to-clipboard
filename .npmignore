@@ -2,3 +2,4 @@ e2e_helpers
 tests
 nightwatch.json
 selenium-debug.log
+index.html
