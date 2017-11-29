@@ -31,7 +31,7 @@ copy('Text', {
 
 Works everywhere where `prompt`* is available. Works best (i.e. without additional keystrokes) in Chrome, FF, Safari 10+, and, supposedly, IE/Edge.
 
-Note: **does not work on some older iOS devices.**  
+Note: **does not work on some older iOS devices.**
 `*` – even though **Safari 8** has `prompt`, you cannot specify prefilled content for prompt modal – thus it **doesn't work** as expected.
 
 # Installation
@@ -56,7 +56,7 @@ You will have `window.copyToClipboard` exposed for you to use.
 + [April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
 
 # Running Tests
-This project has some automated tests, that will run using [nightwatch](nightwatchjs.org) on top of [selenium](http://www.seleniumhq.org/).
+This project has some automated tests, that will run using [ava](https://github.com/avajs/ava) on top of [puppeteer](https://github.com/GoogleChrome/puppeteer).
 
 ```
 npm i

@@ -1,5 +1,2 @@
-e2e_helpers
-tests
-nightwatch.json
-selenium-debug.log
+test
 index.html

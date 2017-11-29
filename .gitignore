@@ -1,4 +1,4 @@
-node_modules
+/node_modules
 .DS_Store
 reports
-selenium-debug.log
+/package-lock.json

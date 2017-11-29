@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "pretest": "browserify ./index.js -o ./example/index.js --standalone copyToClipboard",
-    "test": "nightwatch"
+    "test": "ava"
   },
   "keywords": [
     "clipboard",
@@ -32,9 +32,9 @@
     "example": "example"
   },
   "devDependencies": {
+    "ava": "^0.24.0",
     "browserify": "^13.0.1",
-    "nightwatch": "^0.9.1",
-    "node-static": "^0.7.7",
-    "selenium-server-standalone-jar": "2.53.0"
+    "clipboardy": "^1.2.2",
+    "puppeteer": "^0.13.0"
   }
 }
