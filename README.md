@@ -24,6 +24,7 @@ copy('Text', {
 |------|--------|-----|
 |options.debug  |false| `Boolean`. Optional. Enable output to console. |
 |options.message|Copy to clipboard: `#{key}`, Enter| `String`. Optional. Prompt message. `*` |
+|options.onCopy |undefined| `Function`. Optional. Specify 'copy' event listener |
 
 `*` all occurrences of `#{key}` are replaced with `⌘+C` for macOS/iOS users, and `Ctrl+C` otherwise.
 
