@@ -16,10 +16,18 @@ function copy(text, options) {
     range,
     selection,
     mark,
+    style,
     success = false;
   if (!options) {
     options = {};
   }
+
+  if (options.style) {
+    // If style is the boolean `true`, use the default values.
+    // Otherwise, overwrite the default values with whatever is passed.
+    style = Object.assign({ background: 'white', text: 'black' }, options.style);
+  }
+
   debug = options.debug || false;
   try {
     reselectPrevious = deselectCurrent();
@@ -31,6 +39,10 @@ function copy(text, options) {
     mark.textContent = text;
     // reset user styles for span element
     mark.style.all = "unset";
+    if (style) {
+      mark.style.backgroundColor = style.background;
+      mark.style.color = style.text;
+    }
     // prevents scrolling to the end of the page
     mark.style.position = "fixed";
     mark.style.top = 0;
@@ -43,11 +55,14 @@ function copy(text, options) {
     mark.style.msUserSelect = "text";
     mark.style.userSelect = "text";
     mark.addEventListener("copy", function(e) {
+      // Prevents the "copy" event from reaching the outside world.
       e.stopPropagation();
-      if (options.format) {
+      if (!style) {
+        // Force a text copy instead of an html copy, to make it easier to
+        // work with word processors.
         e.preventDefault();
         e.clipboardData.clearData();
-        e.clipboardData.setData(options.format, text);
+        e.clipboardData.setData('text/plain', text);
       }
     });
 
@@ -65,7 +80,7 @@ function copy(text, options) {
     debug && console.error("unable to copy using execCommand: ", err);
     debug && console.warn("trying IE specific stuff");
     try {
-      window.clipboardData.setData(options.format || "text", text);
+      window.clipboardData.setData("text", text);
       success = true;
     } catch (err) {
       debug && console.error("unable to copy using clipboardData: ", err);
