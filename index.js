@@ -43,7 +43,13 @@ function copy(text, options) {
     mark.style.msUserSelect = "text";
     mark.style.userSelect = "text";
     mark.addEventListener("copy", function(e) {
+      // Prevents the "copy" event from reaching the outside world.
       e.stopPropagation();
+      // And force a text copy instead of an html copy, to make it easier to
+      // work with word processors.
+      e.preventDefault();
+      e.clipboardData.clearData();
+      e.clipboardData.setData('text/plain', text);
     });
 
     document.body.appendChild(mark);
