@@ -38,6 +38,7 @@ function copy(text, options) {
     document.body.appendChild(mark);
 
     range.selectNode(mark);
+    selection.removeAllRanges();
     selection.addRange(range);
 
     var successful = document.execCommand('copy');
