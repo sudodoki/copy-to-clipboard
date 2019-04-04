@@ -34,10 +34,11 @@ function copy(text, options) {
     mark.style.MozUserSelect = 'text';
     mark.style.msUserSelect = 'text';
     mark.style.userSelect = 'text';
+    mark.addEventListener('copy', function(e) { e.stopPropagation(); });
 
     document.body.appendChild(mark);
 
-    range.selectNode(mark);
+    range.selectNodeContents(mark);
     selection.addRange(range);
 
     var successful = document.execCommand('copy');
