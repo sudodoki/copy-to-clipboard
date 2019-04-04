@@ -32,9 +32,9 @@
     "example": "example"
   },
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "nightwatch": "^0.9.1",
-    "node-static": "^0.7.7",
-    "selenium-server-standalone-jar": "2.53.0"
+    "browserify": "^14.4.0",
+    "nightwatch": "^0.9.16",
+    "node-static": "^0.7.9",
+    "selenium-server-standalone-jar": "3.4.0"
   }
 }
