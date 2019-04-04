@@ -5,6 +5,7 @@
 interface Options {
   debug?: boolean;
   message?: string;
+  onCopy?: EventListenerOrEventListenerObject;
 }
 
 declare function copy(text: string, options?: Options): boolean;

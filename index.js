@@ -34,6 +34,10 @@ function copy(text, options) {
     mark.style.MozUserSelect = 'text';
     mark.style.msUserSelect = 'text';
     mark.style.userSelect = 'text';
+    // add event listener if specified
+    if (options.onCopy && mark.addEventListener) {
+      mark.addEventListener('copy', options.onCopy);
+    }
 
     document.body.appendChild(mark);
 
