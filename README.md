@@ -24,6 +24,7 @@ copy('Text', {
 |------|--------|-----|
 |options.debug  |false| `Boolean`. Optional. Enable output to console. |
 |options.message|Copy to clipboard: `#{key}`, Enter| `String`. Optional. Prompt message. `*` |
+|options.format|"text"|`String`. Optional. Set the MIME type of what you want to copy as. Use "text/HTML" to copy as HTML|
 
 `*` all occurrences of `#{key}` are replaced with `⌘+C` for macOS/iOS users, and `Ctrl+C` otherwise.
 
