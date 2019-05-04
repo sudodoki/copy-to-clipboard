@@ -5,14 +5,17 @@
   <title>CopyButtonPlayground</title>
   <link rel="stylesheet" href="example.css">
 </head>
-<body>
+<!-- We use a background so that we can easily check for bug #46 in Chrome after changing code.-->
+<body style='background: #ddd'>
   <h1 data-test="heading"><a href="http://github.com/sudodoki/copy-to-clipboard">copy-to-clipboard Repo</a></h1>
   <textarea data-test="placeholder"></textarea>
   <div class="container">
     <h2 id="basic-text">Basic text copy</h2>
     <textarea disabled class="code half">copyToClipboard("Hello, I'm new content from your clipboard")</textarea>
     <div class="half">
-      <button data-test="init-basic-text">Click to copy sample text</button>
+      <button class="copy-basic-text">Click to copy sample text</button>
+      <button class="copy-basic-text-default-style">Click to copy sample text with default style</button>
+      <button class="copy-basic-text-custom-style">Click to copy sample text with custom style</button>
     </div>
   </div>
   <hr>
@@ -23,7 +26,7 @@ This would be
 some multiline text
 for us to copy</textarea>
     <div class="half">
-      <button data-test="init-multiline-text">Click to copy multiline text</button>
+      <button class="copy-multiline-text">Click to copy multiline text</button>
     </div>
   </div>
   <hr>
@@ -35,26 +38,35 @@ for us to copy</textarea>
 </script>
 </textarea>
     <div class="half">
-      <button data-test="init-markup-text">Click to copy multiline text</button>
+      <button class="copy-markup-text">Click to copy multiline text</button>
     </div>
   </div>
   <hr>
   <script src="./index.js"></script>
   <script>
-    document.querySelector('#basic-text ~ .half button')
+    var simpleText = "Hello, I'm new content from your clipboard";
+    document.querySelector('.copy-basic-text')
       .addEventListener('click', function () {
-        copyToClipboard("Hello, I'm new content from your clipboard")
+        copyToClipboard(simpleText)
+      });
+    document.querySelector('.copy-basic-text-default-style')
+      .addEventListener('click', function () {
+        copyToClipboard(simpleText, { style: true })
+      });
+    document.querySelector('.copy-basic-text-custom-style')
+      .addEventListener('click', function () {
+        copyToClipboard(simpleText, { style: { background: 'red', text: 'yellow' }})
       });
     (function() {
       var multilineContainer = document.querySelector('#multiline-text + textarea');
-      document.querySelector('#multiline-text ~ .half button')
+      document.querySelector('.copy-multiline-text')
         .addEventListener('click', function () {
           copyToClipboard(multilineContainer.textContent)
         })
     })();
     (function() {
       var markupContainer = document.querySelector('#multiline-markup + textarea');
-      document.querySelector('#multiline-markup ~ .half button')
+      document.querySelector('.copy-markup-text')
         .addEventListener('click', function () {
           copyToClipboard(markupContainer.textContent)
         })
