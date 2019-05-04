@@ -5,6 +5,7 @@
 interface Options {
   debug?: boolean;
   message?: string;
+  format?: string; // MIME type
 }
 
 declare function copy(text: string, options?: Options): boolean;
