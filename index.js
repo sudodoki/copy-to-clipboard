@@ -11,6 +11,7 @@ function format(message) {
 
 function copy(text, options) {
   var debug,
+    fallback,
     message,
     reselectPrevious,
     range,
@@ -21,6 +22,7 @@ function copy(text, options) {
     options = {};
   }
   debug = options.debug || false;
+  fallback = options.fallback || true;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -71,7 +73,9 @@ function copy(text, options) {
       debug && console.error("unable to copy using clipboardData: ", err);
       debug && console.error("falling back to prompt");
       message = format("message" in options ? options.message : defaultMessage);
-      window.prompt(message, text);
+      if (fallback) {
+        window.prompt(message, text);
+      }
     }
   } finally {
     if (selection) {
