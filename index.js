@@ -22,7 +22,7 @@ function copy(text, options) {
     options = {};
   }
   debug = options.debug || false;
-  fallback = options.fallback || true;
+  fallback = options.fallback == null ? true : options.fallback;
   try {
     reselectPrevious = deselectCurrent();
 
