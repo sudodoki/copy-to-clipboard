@@ -49,6 +49,10 @@ function copy(text, options) {
         e.clipboardData.clearData();
         e.clipboardData.setData(options.format, text);
       }
+      if (options.onCopy) {
+        e.preventDefault();
+        options.onCopy(e.clipboardData);
+      }
     });
 
     document.body.appendChild(mark);
@@ -66,6 +70,7 @@ function copy(text, options) {
     debug && console.warn("trying IE specific stuff");
     try {
       window.clipboardData.setData(options.format || "text", text);
+      options.onCopy && options.onCopy(window.clipboardData);
       success = true;
     } catch (err) {
       debug && console.error("unable to copy using clipboardData: ", err);
