@@ -42,13 +42,11 @@ function copy(text, options) {
     mark.style.MozUserSelect = "text";
     mark.style.msUserSelect = "text";
     mark.style.userSelect = "text";
-    mark.addEventListener("copy", function(e) {
+    mark.addEventListener("copy", function (e) {
       e.stopPropagation();
-      if (options.format) {
-        e.preventDefault();
-        e.clipboardData.clearData();
-        e.clipboardData.setData(options.format, text);
-      }
+      e.preventDefault();
+      e.clipboardData.clearData();
+      e.clipboardData.setData(options.format || 'text/plain', text);
     });
 
     document.body.appendChild(mark);
