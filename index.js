@@ -2,6 +2,12 @@
 
 var deselectCurrent = require("toggle-selection");
 
+var clipboardToIE11Formatting = {
+  "text/plain": "Text",
+  "text/html": "Url",
+  "default": "Text"
+}
+
 var defaultMessage = "Copy to clipboard: #{key}, Enter";
 
 function format(message) {
@@ -46,8 +52,16 @@ function copy(text, options) {
       e.stopPropagation();
       if (options.format) {
         e.preventDefault();
-        e.clipboardData.clearData();
-        e.clipboardData.setData(options.format, text);
+        if (typeof e.clipboardData === "undefined") { // IE 11
+          debug && console.warn("unable to use e.clipboardData");
+          debug && console.warn("trying IE specific stuff");
+          window.clipboardData.clearData();
+          var format = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"]
+          window.clipboardData.setData(format, text);
+        } else { // all other browsers
+          e.clipboardData.clearData();
+          e.clipboardData.setData(options.format, text);
+        }
       }
       if (options.onCopy) {
         e.preventDefault();
