@@ -63,6 +63,10 @@ function copy(text, options) {
           e.clipboardData.setData(options.format, text);
         }
       }
+      if (options.onCopy) {
+        e.preventDefault();
+        options.onCopy(e.clipboardData);
+      }
     });
 
     document.body.appendChild(mark);
@@ -77,10 +81,17 @@ function copy(text, options) {
     success = true;
   } catch (err) {
     debug && console.error("unable to copy using execCommand: ", err);
-    debug && console.error("unable to copy using clipboardData: ", err);
-    debug && console.error("falling back to prompt");
-    message = format("message" in options ? options.message : defaultMessage);
-    window.prompt(message, text);
+    debug && console.warn("trying IE specific stuff");
+    try {
+      window.clipboardData.setData(options.format || "text", text);
+      options.onCopy && options.onCopy(window.clipboardData);
+      success = true;
+    } catch (err) {
+      debug && console.error("unable to copy using clipboardData: ", err);
+      debug && console.error("falling back to prompt");
+      message = format("message" in options ? options.message : defaultMessage);
+      window.prompt(message, text);
+    }
   } finally {
     if (selection) {
       if (typeof selection.removeRange == "function") {
