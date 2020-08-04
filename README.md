@@ -26,6 +26,8 @@ copy('Text', {
 |options.message|Copy to clipboard: `#{key}`, Enter| `String`. Optional. Prompt message. `*` |
 |options.format|"text/html"| `String`. Optional. Set the MIME type of what you want to copy as. Use `text/html` to copy as HTML, `text/plain` to avoid inherited styles showing when pasted into rich text editor. |
 |options.onCopy|null| `function onCopy(clipboardData: object): void`. Optional. Receives the clipboardData element for adding custom behavior such as additional formats |
+|options.container|document.body| `Element`.  |
+
 
 `*` all occurrences of `#{key}` are replaced with `⌘+C` for macOS/iOS users, and `Ctrl+C` otherwise.
 
@@ -33,7 +35,7 @@ copy('Text', {
 
 Works everywhere where `prompt`* is available. Works best (i.e. without additional keystrokes) in Chrome, FF, Safari 10+, and, supposedly, IE/Edge.
 
-Note: **does not work on some older iOS devices.**  
+Note: **does not work on some older iOS devices.**
 `*` – even though **Safari 8** has `prompt`, you cannot specify prefilled content for prompt modal – thus it **doesn't work** as expected.
 
 # Installation
