@@ -23,6 +23,7 @@ function copy(text, options) {
     selection,
     mark,
     success = false;
+    container = document.body
   if (!options) {
     options = {};
   }
@@ -69,7 +70,7 @@ function copy(text, options) {
       }
     });
 
-    document.body.appendChild(mark);
+    container.appendChild(mark);
 
     range.selectNodeContents(mark);
     selection.addRange(range);
@@ -102,7 +103,7 @@ function copy(text, options) {
     }
 
     if (mark) {
-      document.body.removeChild(mark);
+      container.removeChild(mark);
     }
     reselectPrevious();
   }
