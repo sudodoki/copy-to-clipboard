@@ -5,7 +5,7 @@
 interface Options {
   debug?: boolean;
   message?: string;
-  format?: string; // MIME type
+  format?: 'text/html' | 'text/plain'; // MIME type
   onCopy?: (clipboardData: object) => void;
 }
 
