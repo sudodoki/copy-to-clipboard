@@ -1,6 +1,6 @@
 'use strict';
 const http = require('http')
-const nodeStatic = require('node-static');
+const nodeStatic = require('@brettz9/node-static');
 const fileServer = new nodeStatic.Server('./example');
 let server;
 module.exports = {

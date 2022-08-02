@@ -33,8 +33,10 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
-    "nightwatch": "^0.9.1",
-    "node-static": "^0.7.7",
+    "minimist": "^1.2.6",
+    "nightwatch": "^2.3.0",
+    "@brettz9/node-static": "^0.1.1",
+    "optimist": "^0.5.2",
     "selenium-server-standalone-jar": "2.53.0",
     "uglify-js": "^3.5.3"
   }
