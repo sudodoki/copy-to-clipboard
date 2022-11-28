@@ -2,7 +2,7 @@
 
 Simple module exposing `copy` function that will try to use [execCommand](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand#) with fallback to IE-specific `clipboardData` interface and finally, resort to usual `prompt` with proper text content and message.
 
-> If you are building using [Electron](http://electronjs.org/), use [their API](https://www.electronjs.org/docs/api/clipboard).
+> If you are building using [Electron](http://electronjs.org/), use [their API](https://www.electronjs.org/docs/latest/api/clipboard).
 
 # Example
 
