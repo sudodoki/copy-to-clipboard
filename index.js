@@ -33,7 +33,9 @@ function copy(text, options) {
     range = document.createRange();
     selection = document.getSelection();
 
-    mark = document.createElement("span");
+    // mark = document.createElement("span");
+    // copy to excel line breaks
+    mark = document.createElement("pre");
     mark.textContent = text;
     // avoid screen readers from reading out loud the text
     mark.ariaHidden = "true"
