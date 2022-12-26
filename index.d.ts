@@ -7,6 +7,7 @@ interface Options {
   message?: string;
   format?: string; // MIME type
   onCopy?: (clipboardData: object) => void;
+  container?: HTMLElement
 }
 
 declare function copy(text: string, options?: Options): boolean;
