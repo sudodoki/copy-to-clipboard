@@ -1,6 +1,6 @@
 "use strict";
 
-var deselectCurrent = require("toggle-selection");
+import deselectCurrent from 'toggle-selection';
 
 var clipboardToIE11Formatting = {
   "text/plain": "Text",
@@ -112,4 +112,4 @@ function copy(text, options) {
   return success;
 }
 
-module.exports = copy;
+export default copy;
