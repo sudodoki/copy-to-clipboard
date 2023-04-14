@@ -17,6 +17,14 @@
   </div>
   <hr>
   <div class="container">
+    <h2 id="copy-with-callback">Copy with callback</h2>
+    <textarea disabled class="code half">copyToClipboard("Copy with callback", { onCopy: noop })</textarea>
+    <div class="half">
+      <button data-test="init-copy-with-callback">Click to copy sample text</button>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
     <h2 id="multiline-text">Multiline text copy</h2>
     <textarea disabled class="code half">
 This would be
@@ -45,6 +53,18 @@ for us to copy</textarea>
       .addEventListener('click', function () {
         copyToClipboard("Hello, I'm new content from your clipboard")
       });
+    (function() {
+      var container = document.querySelector('#copy-with-callback + textarea');
+      var noop = function noop() {
+        // do nothing
+      };
+      document.querySelector('#copy-with-callback ~ .half button')
+        .addEventListener('click', function () {
+          copyToClipboard(container.textContent, {
+            onCopy: noop,
+          })
+        })
+    })();
     (function() {
       var multilineContainer = document.querySelector('#multiline-text + textarea');
       document.querySelector('#multiline-text ~ .half button')
