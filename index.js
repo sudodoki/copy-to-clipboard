@@ -66,7 +66,6 @@ function copy(text, options) {
         }
       }
       if (options.onCopy) {
-        e.preventDefault();
         options.onCopy(e.clipboardData);
       }
     });
