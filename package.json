@@ -2,6 +2,7 @@
   "name": "copy-to-clipboard",
   "version": "3.3.3",
   "description": "Copy stuff into clipboard using JS with fallbacks",
+  "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
