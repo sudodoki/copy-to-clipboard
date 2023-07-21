@@ -89,10 +89,13 @@ function copy(text, options) {
       options.onCopy && options.onCopy(window.clipboardData);
       success = true;
     } catch (err) {
+      var enablePromptFallback = typeof options.prompt === "undefined" ? true : options.prompt;
       debug && console.error("unable to copy using clipboardData: ", err);
-      debug && console.error("falling back to prompt");
-      message = format("message" in options ? options.message : defaultMessage);
-      window.prompt(message, text);
+      if (enablePromptFallback) {
+        debug && console.error("falling back to prompt");
+        message = format("message" in options ? options.message : defaultMessage);
+        window.prompt(message, text);
+      }
     }
   } finally {
     if (selection) {

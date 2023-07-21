@@ -25,6 +25,7 @@ copy('Text', {
 |Value |Default |Notes|
 |------|--------|-----|
 |options.debug  |false| `Boolean`. Optional. Enable output to console. |
+|options.prompt |true | `Boolean`. Optional. Enable prompt fallback. |
 |options.message|Copy to clipboard: `#{key}`, Enter| `String`. Optional. Prompt message. `*` |
 |options.format|"text/html"| `String`. Optional. Set the MIME type of what you want to copy as. Use `text/html` to copy as HTML, `text/plain` to avoid inherited styles showing when pasted into rich text editor. |
 |options.onCopy|null| `function onCopy(clipboardData: object): void`. Optional. Receives the clipboardData element for adding custom behavior such as additional formats |
