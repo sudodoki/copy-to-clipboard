@@ -15,6 +15,26 @@ function format(message) {
   return message.replace(/#{\s*key\s*}/g, copyKey);
 }
 
+function findOpenedModalDialog() {
+  /**
+   * "Modal" dialog is an html <dialog> with "open" property set to `true`
+   * and an unset "open" attribute:
+   * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#open
+   */
+  let element = document.activeElement;
+  while (element) {
+    if (
+      element.tagName === 'DIALOG' &&
+      element.open &&
+      !element.getAttribute('open')
+    ) {
+      return element;
+    }
+    element = element.parentElement;
+  }
+  return null;
+}
+
 function copy(text, options) {
   var debug,
     message,
@@ -27,6 +47,7 @@ function copy(text, options) {
     options = {};
   }
   debug = options.debug || false;
+  let root = null;
   try {
     reselectPrevious = deselectCurrent();
 
@@ -71,9 +92,11 @@ function copy(text, options) {
       }
     });
 
-    document.body.appendChild(mark);
+    root = findOpenedModalDialog() || document.body;
+    root.appendChild(mark);
 
     range.selectNodeContents(mark);
+    selection.removeAllRanges();
     selection.addRange(range);
 
     var successful = document.execCommand("copy");
@@ -103,8 +126,8 @@ function copy(text, options) {
       }
     }
 
-    if (mark) {
-      document.body.removeChild(mark);
+    if (mark && root) {
+      root.removeChild(mark);
     }
     reselectPrevious();
   }
