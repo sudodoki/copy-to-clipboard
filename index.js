@@ -61,7 +61,7 @@ function copy(text, options) {
           var format = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"]
           window.clipboardData.setData(format, text);
         } else { // all other browsers
-          e.clipboardData.clearData();
+          e.clipboardData.clearData(options.format);
           e.clipboardData.setData(options.format, text);
         }
       }
