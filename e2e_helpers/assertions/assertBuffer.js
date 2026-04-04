@@ -35,7 +35,10 @@ exports.assertion = function(expected) {
           .keyDown(key).sendKeys('v').keyUp(key)
           .perform();
       })
-      .pause(200)
+      .waitUntil(async function() {
+        const value = await this.getValue('[data-test="placeholder"]');
+        return value !== '';
+      }, parseInt(process.env.ASSERT_BUFFER_TIMEOUT, 10) || 500)
       .getValue('[data-test="placeholder"]', function(result) {
         callback(result.value);
       });
