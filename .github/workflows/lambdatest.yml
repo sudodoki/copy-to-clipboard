@@ -5,6 +5,8 @@ name: LambdaTest Cross-Browser
 on:
   push:
     tags: ['v*']
+    branches:
+      - test-ci-once
   workflow_dispatch:
     inputs:
       firefox:
