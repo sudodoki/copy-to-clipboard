@@ -60,12 +60,18 @@ You will have `window.copyToClipboard` exposed for you to use.
 + [April 2015 update on Cut and Copy Commands](http://updates.html5rocks.com/2015/04/cut-and-copy-commands)
 
 # Running Tests
-This project has some automated tests, that will run using [nightwatch](nightwatchjs.org) on top of [selenium](http://www.seleniumhq.org/).
+
+This project has end-to-end tests powered by [Nightwatch](https://nightwatchjs.org/) using native browser drivers.
 
 ```
 npm i
-npm test
+npm test           # Chrome (default)
+npm run test:firefox
+npm run test:safari
+npm run test:all   # Chrome, Firefox, and Safari in sequence
 ```
+
+**Safari prerequisite:** Safari requires "Allow Remote Automation" to be enabled before `test:safari` will work. See [Testing with WebDriver in Safari](https://developer.apple.com/documentation/webkit/testing-with-webdriver-in-safari) on Apple Developer Documentation for instructions.
 # Typescript
 This library has built-in Typescript definitions.
 
