@@ -1,0 +1,93 @@
+name: LambdaTest Cross-Browser
+
+# Runs automatically on every version tag (e.g. v4.0.0).
+# Can also be triggered manually from the Actions tab with per-browser toggles.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      firefox:
+        description: 'Firefox (latest, Windows 11)'
+        type: boolean
+        default: true
+      chrome:
+        description: 'Chrome (latest, Windows 11)'
+        type: boolean
+        default: true
+      safari:
+        description: 'Safari (latest, macOS Sequoia)'
+        type: boolean
+        default: true
+      edge:
+        description: 'Edge (latest, Windows 11)'
+        type: boolean
+        default: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      LT_USERNAME: ${{ secrets.LT_USERNAME }}
+      LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+      # Appears as the build name in the LambdaTest dashboard
+      NIGHTWATCH_BUILD: ${{ github.ref_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build example bundle
+        run: npm run bundle
+
+      # The tunnel lets LambdaTest cloud browsers reach localhost:8080 on this runner.
+      # tunnelName must match the value in nightwatch.conf.js ltEnv() → tunnelName.
+      - name: Start LambdaTest Tunnel
+        uses: LambdaTest/tunnel-action@v2
+        with:
+          user: ${{ secrets.LT_USERNAME }}
+          accessKey: ${{ secrets.LT_ACCESS_KEY }}
+          tunnelName: nightwatch-tunnel
+
+      # On a tag push all four browsers run unconditionally.
+      # On workflow_dispatch only the checked browsers run.
+      - name: Firefox
+        if: github.event_name == 'push' || inputs.firefox
+        run: npm run test:lt:firefox
+
+      - name: Chrome
+        if: github.event_name == 'push' || inputs.chrome
+        run: npm run test:lt:chrome
+
+      - name: Safari
+        if: github.event_name == 'push' || inputs.safari
+        run: npm run test:lt:safari
+
+      - name: Edge
+        if: github.event_name == 'push' || inputs.edge
+        run: npm run test:lt:edge
+
+# ── Customising target browsers / devices ────────────────────────────────────
+#
+# LambdaTest supports hundreds of OS + browser + version combinations as well
+# as real and virtual mobile devices (iOS Safari, Android Chrome, etc.).
+#
+# To add or change a target:
+#   1. Open https://www.lambdatest.com/capabilities-generator/ and pick your
+#      combination — it shows the exact capability values to paste.
+#   2. Add a matching ltEnv() entry in nightwatch.conf.js (see the comments
+#      there for a mobile/Appium example).
+#   3. Add a npm script in package.json: "test:lt:myenv": "nightwatch --env myenv"
+#   4. Add a step here that calls that script (and an optional boolean input
+#      if you want it selectable from workflow_dispatch).
+#
+# IE 11 note: LambdaTest still provides Internet Explorer 11 on Windows 10.
+# Use browserName: 'internet explorer' in the ltEnv() call. IE 11 has been
+# end-of-life since June 2022 and receives no security patches.

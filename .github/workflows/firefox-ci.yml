@@ -1,0 +1,30 @@
+name: Firefox Tests
+
+on:
+  push:
+    branches:
+      - main
+      - 4.0.0-branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build example bundle
+        run: npm run bundle
+
+      # Firefox is pre-installed on ubuntu-latest runners.
+      # geckodriver is installed via npm (see devDependencies).
+      # The firefox env auto-enables headless mode when CI=true.
+      - name: Run Nightwatch tests (Firefox)
+        run: npm run test:firefox

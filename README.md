@@ -61,17 +61,34 @@ You will have `window.copyToClipboard` exposed for you to use.
 
 # Running Tests
 
-This project has end-to-end tests powered by [Nightwatch](https://nightwatchjs.org/) using native browser drivers.
+End-to-end tests are powered by [Nightwatch](https://nightwatchjs.org/) using native browser drivers.
 
 ```
 npm i
-npm test           # Chrome (default)
+npm test               # Chrome (default)
+npm run test:chrome
 npm run test:firefox
 npm run test:safari
-npm run test:all   # Chrome, Firefox, and Safari in sequence
+npm run test:all       # Chrome, Firefox, and Safari in sequence
 ```
 
 **Safari prerequisite:** Safari requires "Allow Remote Automation" to be enabled before `test:safari` will work. See [Testing with WebDriver in Safari](https://developer.apple.com/documentation/webkit/testing-with-webdriver-in-safari) on Apple Developer Documentation for instructions.
+
+## CI
+
+**Firefox** tests run automatically on every push to `main` / `4.0.0-branch` and on pull requests via GitHub Actions (Ubuntu runner, headless).
+
+**Cross-browser** tests (Firefox, Chrome, Safari, Edge) run on [LambdaTest](https://www.lambdatest.com/) automatically on every version tag (`v*`) and can be triggered manually from the Actions tab with per-browser toggles. Requires `LT_USERNAME` and `LT_ACCESS_KEY` repository secrets.
+
+To run the LambdaTest suite locally (requires credentials in environment):
+
+```
+npm run test:lt:firefox
+npm run test:lt:chrome
+npm run test:lt:safari
+npm run test:lt:edge
+npm run test:lt:all
+```
 # Typescript
 This library has built-in Typescript definitions.
 

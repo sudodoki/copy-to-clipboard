@@ -11,7 +11,12 @@
     "test:chrome": "nightwatch --env chrome",
     "test:firefox": "nightwatch --env firefox",
     "test:safari": "nightwatch --env safari",
-    "test:all": "nightwatch --env chrome,firefox,safari"
+    "test:all": "nightwatch --env chrome,firefox,safari",
+    "test:lt:firefox": "nightwatch --env lambdatest_firefox",
+    "test:lt:chrome": "nightwatch --env lambdatest_chrome",
+    "test:lt:safari": "nightwatch --env lambdatest_safari",
+    "test:lt:edge": "nightwatch --env lambdatest_edge",
+    "test:lt:all": "nightwatch --env lambdatest_firefox,lambdatest_chrome,lambdatest_safari,lambdatest_edge"
   },
   "keywords": [
     "clipboard",
