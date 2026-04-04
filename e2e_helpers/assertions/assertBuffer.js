@@ -35,7 +35,7 @@ exports.assertion = function(expected) {
           .keyDown(key).sendKeys('v').keyUp(key)
           .perform();
       })
-      .pause(100)
+      .pause(200)
       .getValue('[data-test="placeholder"]', function(result) {
         callback(result.value);
       });
