@@ -28,7 +28,10 @@ function ltEnv(browserName, browserVersion, platformName, testName) {
         tunnel: true,
         tunnelName: 'nightwatch-tunnel',
         w3c: true,
-        plugin: 'node_js-nightwatch'
+        plugin: 'node_js-nightwatch',
+        console: true,
+        network: true,
+        visual: true
       }
     }
   };
@@ -44,7 +47,7 @@ module.exports = {
 
   test_settings: {
     default: {
-      launch_url: 'http://localhost:8080',
+      launch_url: `http://${process.env.SERVE_HOST || 'localhost'}:8080`,
       screenshots: {
         enabled: true,
         path: 'reports'
