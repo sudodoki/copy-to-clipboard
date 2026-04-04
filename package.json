@@ -5,8 +5,13 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "pretest": "browserify ./index.js --standalone copyToClipboard | uglifyjs -cm > example/index.js",
-    "test": "nightwatch"
+    "bundle": "browserify ./index.js --standalone copyToClipboard | uglifyjs -cm > example/index.js",
+    "pretest": "npm run bundle",
+    "test": "nightwatch --env chrome",
+    "test:chrome": "nightwatch --env chrome",
+    "test:firefox": "nightwatch --env firefox",
+    "test:safari": "nightwatch --env safari",
+    "test:all": "nightwatch --env chrome,firefox,safari"
   },
   "keywords": [
     "clipboard",
@@ -32,12 +37,12 @@
     "example": "example"
   },
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "minimist": "^1.2.6",
-    "nightwatch": "^2.3.0",
     "@brettz9/node-static": "^0.1.1",
-    "optimist": "^0.5.2",
-    "selenium-server-standalone-jar": "2.53.0",
+    "browserify": "^13.0.1",
+    "chromedriver": "^146.0.6",
+    "geckodriver": "^6.1.0",
+    "minimist": "^1.2.6",
+    "nightwatch": "^3.15.0",
     "uglify-js": "^3.5.3"
   }
 }
