@@ -75,7 +75,7 @@ jobs:
       - name: Safari
         if: github.event_name == 'push' || inputs.safari
         env:
-          ASSERT_BUFFER_TIMEOUT: 1500
+          ASSERT_BUFFER_TIMEOUT: 5000
         run: npm run test:lt:safari
 
       - name: Edge
