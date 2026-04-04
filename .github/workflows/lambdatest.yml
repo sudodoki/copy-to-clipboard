@@ -57,7 +57,8 @@ jobs:
           wget -q https://downloads.lambdatest.com/tunnel/v3/linux/64bit/LT_Linux.zip
           unzip -q LT_Linux.zip
           ./LT --user "$LT_USERNAME" --key "$LT_ACCESS_KEY" \
-               --tunnelName nightwatch-tunnel
+               --tunnelName nightwatch-tunnel > tunnel.log 2>&1 &
+          echo $! > tunnel.pid
           # Wait for tunnel to be ready
           sleep 10
 
@@ -78,6 +79,14 @@ jobs:
       - name: Edge
         if: github.event_name == 'push' || inputs.edge
         run: npm run test:lt:edge
+
+      - name: Upload tunnel log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambdatest-tunnel-log
+          path: tunnel.log
+          retention-days: 7
 
 # ── Customising target browsers / devices ────────────────────────────────────
 #
