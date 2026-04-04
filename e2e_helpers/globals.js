@@ -25,6 +25,8 @@ module.exports = {
   },
 
   afterEach: function (browser, done) {
+    // Skip if test called .end() — session is already closed
+    if (!browser.sessionId) return done();
     browser.getLog('driver', function (entries) {
       if (!entries || entries.length === 0) return done();
       const header = `\n=== ${browser.currentTest.module} / ${browser.currentTest.name} ===\n`;
