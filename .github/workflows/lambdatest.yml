@@ -52,11 +52,14 @@ jobs:
       # The tunnel lets LambdaTest cloud browsers reach localhost:8080 on this runner.
       # tunnelName must match the value in nightwatch.conf.js ltEnv() → tunnelName.
       - name: Start LambdaTest Tunnel
-        uses: LambdaTest/tunnel-action@v2
-        with:
-          user: ${{ secrets.LT_USERNAME }}
-          accessKey: ${{ secrets.LT_ACCESS_KEY }}
-          tunnelName: nightwatch-tunnel
+        timeout-minutes: 5
+        run: |
+          wget -q https://downloads.lambdatest.com/tunnel/v3/linux/64bit/LT_Linux.zip
+          unzip -q LT_Linux.zip
+          ./LT --user "$LT_USERNAME" --key "$LT_ACCESS_KEY" \
+               --tunnelName nightwatch-tunnel
+          # Wait for tunnel to be ready
+          sleep 10
 
       # On a tag push all four browsers run unconditionally.
       # On workflow_dispatch only the checked browsers run.
