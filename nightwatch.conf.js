@@ -57,8 +57,12 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'chrome',
         'goog:chromeOptions': {
-          // Required for navigator.clipboard in automation (used by v4 async path)
-          args: ['--allow-clipboard-read-write']
+          args: [
+            // Required for navigator.clipboard in automation (used by v4 async path)
+            '--allow-clipboard-read-write',
+            // Required for headless CI environments
+            ...(process.env.CI ? ['--headless', '--no-sandbox', '--disable-dev-shm-usage'] : [])
+          ]
         }
       },
       webdriver: {
@@ -84,6 +88,26 @@ module.exports = {
         start_process: true,
         server_path: require('geckodriver').path,
         port: 4444
+      }
+    },
+
+    edge: {
+      desiredCapabilities: {
+        browserName: 'MicrosoftEdge',
+        'ms:edgeOptions': {
+          args: [
+            '--allow-clipboard-read-write',
+            ...(process.env.CI ? ['--headless', '--no-sandbox', '--disable-dev-shm-usage'] : [])
+          ]
+        }
+      },
+      webdriver: {
+        start_process: true,
+        // Use pre-installed msedgedriver on ubuntu-latest; fall back to local install
+        server_path: process.env.EDGEWEBDRIVER
+          ? require('path').join(process.env.EDGEWEBDRIVER, 'msedgedriver')
+          : (() => { try { return require('msedgedriver').path; } catch { return 'msedgedriver'; } })(),
+        port: 9516
       }
     },
 
