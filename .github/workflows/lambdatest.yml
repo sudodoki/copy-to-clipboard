@@ -74,11 +74,21 @@ jobs:
 
       - name: Safari
         if: github.event_name == 'push' || inputs.safari
+        env:
+          ASSERT_BUFFER_TIMEOUT: 1500
         run: npm run test:lt:safari
 
       - name: Edge
         if: github.event_name == 'push' || inputs.edge
         run: npm run test:lt:edge
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightwatch-reports-lambdatest
+          path: reports/
+          retention-days: 7
 
       - name: Upload tunnel log
         if: always()
