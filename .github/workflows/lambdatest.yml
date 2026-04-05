@@ -76,6 +76,7 @@ jobs:
         if: github.event_name == 'push' || inputs.safari
         env:
           ASSERT_BUFFER_TIMEOUT: 5000
+          MODIFIER_KEY: COMMAND
         run: npm run test:lt:safari
 
       - name: Edge
