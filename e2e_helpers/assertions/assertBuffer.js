@@ -1,14 +1,5 @@
 'use strict';
-const os = require('os');
-
-const modificatorKey = (() => {
-  const usesCommandKey = () =>
-    (process.env.REMOTE_SELENIUM
-      ? (process.env.E2E_PLATFORM || '').match(/os\sx/i)
-      : os.type().toLowerCase() === 'darwin')
-
-  return usesCommandKey() ? 'COMMAND' : 'CONTROL';
-})();
+const getModifierKey = require('../modifier-key');
 
 exports.assertion = function(expected) {
   this.message = "Checking buffer contents";
@@ -30,7 +21,7 @@ exports.assertion = function(expected) {
       .waitForElementVisible('[data-test="placeholder"]', 500)
       .click('[data-test="placeholder"]')
       .perform(function() {
-        const key = modificatorKey === 'COMMAND' ? this.Keys.COMMAND : this.Keys.CONTROL;
+        const key = this.Keys[getModifierKey()];
         return this.actions()
           .keyDown(key).sendKeys('v').keyUp(key)
           .perform();

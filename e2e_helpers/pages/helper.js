@@ -1,10 +1,9 @@
 'use strict';
-const os = require('os');
+const getModifierKey = require('../modifier-key');
 
 module.exports = {
   commands: [{
     resetBuffer(text) {
-      const isMac = os.type().toLowerCase() === 'darwin';
 
       return this.api
         .url(this.api.launchUrl)
@@ -13,14 +12,14 @@ module.exports = {
         .sendKeys('[data-test="placeholder"]', text || 'some text to reset the clipboard')
         .pause(50)
         .perform(function() {
-          const key = isMac ? this.Keys.COMMAND : this.Keys.CONTROL;
+          const key = this.Keys[getModifierKey()];
           return this.actions()
             .keyDown(key).sendKeys('a').keyUp(key)
             .perform();
         })
         .pause(50)
         .perform(function() {
-          const key = isMac ? this.Keys.COMMAND : this.Keys.CONTROL;
+          const key = this.Keys[getModifierKey()];
           return this.actions()
             .keyDown(key).sendKeys('c').keyUp(key)
             .perform();
