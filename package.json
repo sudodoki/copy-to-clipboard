@@ -2,11 +2,30 @@
   "name": "copy-to-clipboard",
   "version": "3.3.3",
   "description": "Copy stuff into clipboard using JS with fallbacks",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "type": "commonjs",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "bundle": "browserify ./index.js --standalone copyToClipboard | uglifyjs -cm > example/index.js",
-    "pretest": "npm run bundle",
+    "build": "tsup && cp index.d.ts dist/index.d.ts && cp index.d.mts dist/index.d.mts && cp dist/index.global.js example/index.js",
+    "check": "publint",
+    "pretest": "npm run build",
     "test": "nightwatch --env chrome",
     "test:chrome": "nightwatch --env chrome",
     "test:firefox": "nightwatch --env firefox",
@@ -28,7 +47,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sudodoki/copy-to-clipboard"
+    "url": "git+https://github.com/sudodoki/copy-to-clipboard.git"
   },
   "contributors": [
     {
@@ -36,19 +55,18 @@
       "url": "https://github.com/shvaikalesh"
     }
   ],
-  "dependencies": {
-    "toggle-selection": "^1.0.6"
-  },
   "directories": {
     "example": "example"
   },
   "devDependencies": {
     "@brettz9/node-static": "^0.1.1",
-    "browserify": "^13.0.1",
     "chromedriver": "^146.0.6",
     "geckodriver": "^6.1.0",
     "minimist": "^1.2.6",
     "nightwatch": "^3.15.0",
-    "uglify-js": "^3.5.3"
+    "publint": "^0.3.18",
+    "toggle-selection": "^2.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   }
 }
