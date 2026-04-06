@@ -2,7 +2,7 @@
 const getModifierKey = require('../modifier-key');
 
 exports.assertion = function(expected) {
-  this.message = "Checking buffer contents";
+  this.message = "Checking rich buffer contents (innerHTML)";
   this.expected = (expected instanceof RegExp) ? "to match " + expected : expected;
 
   this.pass = function(value) {
@@ -17,8 +17,12 @@ exports.assertion = function(expected) {
 
   this.command = function(callback) {
     return this.api
-      .waitForElementVisible('[data-test="placeholder"]', 500)
-      .click('[data-test="placeholder"]')
+      .waitForElementVisible('[data-test="rich-placeholder"]', 500)
+      // Clear existing content first
+      .execute(function() {
+        document.querySelector('[data-test="rich-placeholder"]').innerHTML = '';
+      })
+      .click('[data-test="rich-placeholder"]')
       .perform(function() {
         const key = this.Keys[getModifierKey()];
         return this.actions()
@@ -26,10 +30,14 @@ exports.assertion = function(expected) {
           .perform();
       })
       .waitUntil(async function() {
-        const value = await this.getValue('[data-test="placeholder"]');
-        return value !== '';
+        const result = await this.execute(function() {
+          return document.querySelector('[data-test="rich-placeholder"]').innerHTML;
+        });
+        return result !== '';
       }, parseInt(process.env.ASSERT_BUFFER_TIMEOUT, 10) || 500)
-      .getValue('[data-test="placeholder"]', function(result) {
+      .execute(function() {
+        return document.querySelector('[data-test="rich-placeholder"]').innerHTML;
+      }, [], function(result) {
         callback(result.value);
       });
   };
