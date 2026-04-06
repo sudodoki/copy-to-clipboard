@@ -1,1 +1,121 @@
-!function(e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).copyToClipboard=e()}(function(){return function n(r,a,c){function i(t,e){if(!a[t]){if(!r[t]){var o="function"==typeof require&&require;if(!e&&o)return o(t,!0);if(l)return l(t,!0);throw(e=new Error("Cannot find module '"+t+"'")).code="MODULE_NOT_FOUND",e}o=a[t]={exports:{}},r[t][0].call(o.exports,function(e){return i(r[t][1][e]||e)},o,o.exports,n,r,a,c)}return a[t].exports}for(var l="function"==typeof require&&require,e=0;e<c.length;e++)i(c[e]);return i}({1:[function(e,t,o){"use strict";var d=e("toggle-selection"),f={"text/plain":"Text","text/html":"Url",default:"Text"};t.exports=function(o,n){var t,e,r,a,c=!1,i=(n=n||{}).debug||!1;try{var l=d(),s=document.createRange(),u=document.getSelection();if((e=document.createElement("span")).textContent=o,e.ariaHidden="true",e.style.all="unset",e.style.position="fixed",e.style.top=0,e.style.clip="rect(0, 0, 0, 0)",e.style.whiteSpace="pre",e.style.webkitUserSelect="text",e.style.MozUserSelect="text",e.style.msUserSelect="text",e.style.userSelect="text",e.addEventListener("copy",function(e){var t;e.stopPropagation(),n.format&&(e.preventDefault(),void 0===e.clipboardData?(i&&console.warn("unable to use e.clipboardData"),i&&console.warn("trying IE specific stuff"),window.clipboardData.clearData(),t=f[n.format]||f.default,window.clipboardData.setData(t,o)):(e.clipboardData.clearData(),e.clipboardData.setData(n.format,o))),n.onCopy&&(e.preventDefault(),n.onCopy(e.clipboardData))}),document.body.appendChild(e),s.selectNodeContents(e),u.addRange(s),!document.execCommand("copy"))throw new Error("copy command was unsuccessful");c=!0}catch(e){i&&console.error("unable to copy using execCommand: ",e),i&&console.warn("trying IE specific stuff");try{window.clipboardData.setData(n.format||"text",o),n.onCopy&&n.onCopy(window.clipboardData),c=!0}catch(e){i&&console.error("unable to copy using clipboardData: ",e),i&&console.error("falling back to prompt"),r="message"in n?n.message:"Copy to clipboard: #{key}, Enter",a=(/mac os x/i.test(navigator.userAgent)?"⌘":"Ctrl")+"+C",t=r.replace(/#{\s*key\s*}/g,a),window.prompt(t,o)}}finally{u&&("function"==typeof u.removeRange?u.removeRange(s):u.removeAllRanges()),e&&document.body.removeChild(e),l()}return c}},{"toggle-selection":2}],2:[function(e,t,o){t.exports=function(){var t=document.getSelection();if(!t.rangeCount)return function(){};for(var e=document.activeElement,o=[],n=0;n<t.rangeCount;n++)o.push(t.getRangeAt(n));switch(e.tagName.toUpperCase()){case"INPUT":case"TEXTAREA":e.blur();break;default:e=null}return t.removeAllRanges(),function(){"Caret"===t.type&&t.removeAllRanges(),t.rangeCount||o.forEach(function(e){t.addRange(e)}),e&&e.focus()}}},{}]},{},[1])(1)});
+"use strict";
+var copyToClipboard = (() => {
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+
+  // node_modules/toggle-selection/index.js
+  var require_toggle_selection = __commonJS({
+    "node_modules/toggle-selection/index.js"(exports, module) {
+      module.exports = function() {
+        var selection = document.getSelection();
+        if (!selection.rangeCount) {
+          return function() {
+          };
+        }
+        var active = document.activeElement;
+        var ranges = [];
+        for (var i = 0; i < selection.rangeCount; i++) {
+          ranges.push(selection.getRangeAt(i));
+        }
+        switch (active.tagName.toUpperCase()) {
+          // .toUpperCase handles XHTML
+          case "INPUT":
+          case "TEXTAREA":
+            active.blur();
+            break;
+          default:
+            active = null;
+            break;
+        }
+        selection.removeAllRanges();
+        return function() {
+          selection.type === "Caret" && selection.removeAllRanges();
+          if (!selection.rangeCount) {
+            ranges.forEach(function(range) {
+              selection.addRange(range);
+            });
+          }
+          active && active.focus();
+        };
+      };
+    }
+  });
+
+  // index.js
+  var require_index = __commonJS({
+    "index.js"(exports, module) {
+      var deselectCurrent = require_toggle_selection();
+      var defaultMessage = "Copy to clipboard: #{key}, Enter";
+      function format(message) {
+        var copyKey = (/mac os x/i.test(navigator.userAgent) ? "\u2318" : "Ctrl") + "+C";
+        return message.replace(/#{\s*key\s*}/g, copyKey);
+      }
+      function copy(text, options) {
+        var debug, message, reselectPrevious, range, selection, mark, success = false;
+        if (!options) {
+          options = {};
+        }
+        debug = options.debug || false;
+        try {
+          reselectPrevious = deselectCurrent();
+          range = document.createRange();
+          selection = document.getSelection();
+          mark = document.createElement("span");
+          mark.textContent = text;
+          mark.ariaHidden = "true";
+          mark.style.all = "unset";
+          mark.style.position = "fixed";
+          mark.style.top = 0;
+          mark.style.clip = "rect(0, 0, 0, 0)";
+          mark.style.whiteSpace = "pre";
+          mark.style.webkitUserSelect = "text";
+          mark.style.MozUserSelect = "text";
+          mark.style.msUserSelect = "text";
+          mark.style.userSelect = "text";
+          mark.addEventListener("copy", function(e) {
+            e.stopPropagation();
+            if (options.format) {
+              e.preventDefault();
+              e.clipboardData.clearData();
+              e.clipboardData.setData(options.format, text);
+            }
+            if (options.onCopy) {
+              e.preventDefault();
+              options.onCopy(e.clipboardData);
+            }
+          });
+          document.body.appendChild(mark);
+          range.selectNodeContents(mark);
+          selection.addRange(range);
+          var successful = document.execCommand("copy");
+          if (!successful) {
+            throw new Error("copy command was unsuccessful");
+          }
+          success = true;
+        } catch (err) {
+          debug && console.error("unable to copy using execCommand: ", err);
+          debug && console.error("falling back to prompt");
+          message = format("message" in options ? options.message : defaultMessage);
+          window.prompt(message, text);
+        } finally {
+          if (selection) {
+            if (typeof selection.removeRange == "function") {
+              selection.removeRange(range);
+            } else {
+              selection.removeAllRanges();
+            }
+          }
+          if (mark) {
+            document.body.removeChild(mark);
+          }
+          reselectPrevious();
+        }
+        return success;
+      }
+      module.exports = copy;
+    }
+  });
+  return require_index();
+})();

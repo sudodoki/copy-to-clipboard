@@ -1,6 +1,5 @@
 // Type definitions for copy-to-clipboard 4.0
 // Project: https://github.com/sudodoki/copy-to-clipboard
-// Definitions by: Denis Carriere <https://github.com/DenisCarriere>, MartynasZilinskas <https://github.com/MartynasZilinskas>
 
 interface Options {
   debug?: boolean;
@@ -10,6 +9,6 @@ interface Options {
 }
 
 declare function copy(text: string, options?: Options): boolean;
-declare namespace copy { }
-export = copy;
+
+export default copy;
 export type { Options };

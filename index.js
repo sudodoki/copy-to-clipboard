@@ -2,12 +2,6 @@
 
 var deselectCurrent = require("toggle-selection");
 
-var clipboardToIE11Formatting = {
-  "text/plain": "Text",
-  "text/html": "Url",
-  "default": "Text"
-}
-
 var defaultMessage = "Copy to clipboard: #{key}, Enter";
 
 function format(message) {
@@ -54,16 +48,8 @@ function copy(text, options) {
       e.stopPropagation();
       if (options.format) {
         e.preventDefault();
-        if (typeof e.clipboardData === "undefined") { // IE 11
-          debug && console.warn("unable to use e.clipboardData");
-          debug && console.warn("trying IE specific stuff");
-          window.clipboardData.clearData();
-          var format = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"]
-          window.clipboardData.setData(format, text);
-        } else { // all other browsers
-          e.clipboardData.clearData();
-          e.clipboardData.setData(options.format, text);
-        }
+        e.clipboardData.clearData();
+        e.clipboardData.setData(options.format, text);
       }
       if (options.onCopy) {
         e.preventDefault();
@@ -83,17 +69,9 @@ function copy(text, options) {
     success = true;
   } catch (err) {
     debug && console.error("unable to copy using execCommand: ", err);
-    debug && console.warn("trying IE specific stuff");
-    try {
-      window.clipboardData.setData(options.format || "text", text);
-      options.onCopy && options.onCopy(window.clipboardData);
-      success = true;
-    } catch (err) {
-      debug && console.error("unable to copy using clipboardData: ", err);
-      debug && console.error("falling back to prompt");
-      message = format("message" in options ? options.message : defaultMessage);
-      window.prompt(message, text);
-    }
+    debug && console.error("falling back to prompt");
+    message = format("message" in options ? options.message : defaultMessage);
+    window.prompt(message, text);
   } finally {
     if (selection) {
       if (typeof selection.removeRange == "function") {
