@@ -23,7 +23,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && cp index.d.ts dist/index.d.ts && cp index.d.mts dist/index.d.mts && cp dist/index.global.js example/index.js",
+    "build": "tsup && cp dist/index.global.js example/index.js",
+    "typecheck": "tsc --noEmit",
     "check": "publint",
     "pretest": "npm run build",
     "test": "nightwatch --env chrome",

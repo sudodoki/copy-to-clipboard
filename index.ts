@@ -1,10 +1,32 @@
 "use strict";
 
-var deselectCurrent = require("toggle-selection");
+import deselectCurrent from 'toggle-selection';
 
 var defaultMessage = "Copy to clipboard: #{key}, Enter";
 
-function formatPromptMessage(message) {
+export interface Options {
+  debug?: boolean;
+  message?: string;
+  format?: string; // MIME type
+  /**
+   * Intercept and optionally replace the clipboard item before writing.
+   *
+   * - On the async path (`navigator.clipboard`): receives a `ClipboardItem` and
+   *   may return a new `ClipboardItem` to replace it.
+   * - On the execCommand fallback path: receives the `DataTransfer` object from
+   *   the copy event. Return value is ignored; use `clipboardData.setData()` to
+   *   override content (requires `options.format` to be set so `preventDefault`
+   *   is called).
+   */
+  onCopy?: (clipboardData: ClipboardItem | DataTransfer) => ClipboardItem | void;
+  /**
+   * Enable the `window.prompt()` fallback when both `navigator.clipboard` and
+   * `execCommand` fail. Off by default in v4.
+   */
+  fallbackToPrompt?: boolean;
+}
+
+function formatPromptMessage(message: string): string {
   var isMac = navigator.userAgentData
     ? /mac/i.test(navigator.userAgentData.platform)
     : /mac os x/i.test(navigator.userAgent);
@@ -12,8 +34,8 @@ function formatPromptMessage(message) {
   return message.replace(/#{\s*key\s*}/g, copyKey);
 }
 
-function buildClipboardItem(text, format) {
-  var items = {};
+function buildClipboardItem(text: string, format?: string): ClipboardItem {
+  var items: Record<string, Blob> = {};
   items['text/plain'] = new Blob([text], { type: 'text/plain' });
   if (format && format !== 'text/plain') {
     items[format] = new Blob([text], { type: format });
@@ -21,7 +43,7 @@ function buildClipboardItem(text, format) {
   return new ClipboardItem(items);
 }
 
-async function copyViaClipboardAPI(text, options) {
+async function copyViaClipboardAPI(text: string, options: Options): Promise<boolean> {
   if (!options.format && !options.onCopy) {
     await navigator.clipboard.writeText(text);
     return true;
@@ -29,13 +51,13 @@ async function copyViaClipboardAPI(text, options) {
 
   var item = buildClipboardItem(text, options.format);
   if (options.onCopy) {
-    item = options.onCopy(item) || item;
+    item = (options.onCopy(item) as ClipboardItem) || item;
   }
   await navigator.clipboard.write([item]);
   return true;
 }
 
-function createHiddenSpan(text, options) {
+function createHiddenSpan(text: string, options: Options): HTMLSpanElement {
   var mark = document.createElement("span");
   mark.textContent = text;
   // avoid screen readers from reading out loud the text
@@ -44,29 +66,31 @@ function createHiddenSpan(text, options) {
   mark.style.all = "unset";
   // prevents scrolling to the end of the page
   mark.style.position = "fixed";
-  mark.style.top = 0;
+  mark.style.top = "0";
   mark.style.clip = "rect(0, 0, 0, 0)";
   // used to preserve spaces and line breaks
   mark.style.whiteSpace = "pre";
   // do not inherit user-select (it may be `none`)
   mark.style.webkitUserSelect = "text";
-  mark.style.MozUserSelect = "text";
-  mark.style.msUserSelect = "text";
+  (mark.style as CSSStyleDeclaration & { MozUserSelect: string }).MozUserSelect = "text";
+  (mark.style as CSSStyleDeclaration & { msUserSelect: string }).msUserSelect = "text";
   mark.style.userSelect = "text";
-  mark.addEventListener("copy", function(e) {
+  mark.addEventListener("copy", function(e: ClipboardEvent) {
     e.stopPropagation();
     if (options.format) {
       e.preventDefault();
-      e.clipboardData.setData(options.format, text);
+      if (e.clipboardData) {
+        e.clipboardData.setData(options.format, text);
+      }
     }
-    if (options.onCopy) {
+    if (options.onCopy && e.clipboardData) {
       options.onCopy(e.clipboardData);
     }
   });
   return mark;
 }
 
-function copyViaExecCommand(text, options) {
+function copyViaExecCommand(text: string, options: Options): boolean {
   var reselectPrevious = deselectCurrent();
   var range = document.createRange();
   var selection = document.getSelection();
@@ -76,7 +100,7 @@ function copyViaExecCommand(text, options) {
   try {
     document.body.appendChild(mark);
     range.selectNodeContents(mark);
-    selection.addRange(range);
+    selection!.addRange(range);
 
     var successful = document.execCommand("copy");
     if (!successful) {
@@ -84,10 +108,10 @@ function copyViaExecCommand(text, options) {
     }
     success = true;
   } finally {
-    if (typeof selection.removeRange == "function") {
-      selection.removeRange(range);
+    if (typeof selection!.removeRange == "function") {
+      selection!.removeRange(range);
     } else {
-      selection.removeAllRanges();
+      selection!.removeAllRanges();
     }
     document.body.removeChild(mark);
     reselectPrevious();
@@ -96,10 +120,7 @@ function copyViaExecCommand(text, options) {
   return success;
 }
 
-async function copy(text, options) {
-  if (!options) {
-    options = {};
-  }
+async function copy(text: string, options: Options = {}): Promise<boolean> {
   var debug = options.debug || false;
 
   // --- Async Clipboard API path (secure context only) ---
@@ -122,7 +143,7 @@ async function copy(text, options) {
     debug && console.error("unable to copy using execCommand: ", err);
     debug && console.error("falling back to prompt");
     if (options.fallbackToPrompt) {
-      var message = formatPromptMessage("message" in options ? options.message : defaultMessage);
+      var message = formatPromptMessage("message" in options ? options.message! : defaultMessage);
       window.prompt(message, text);
     }
   }
@@ -130,4 +151,4 @@ async function copy(text, options) {
   return false;
 }
 
-module.exports = copy;
+export default copy;
