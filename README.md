@@ -53,6 +53,44 @@ await copy('<b>Hello <i>world</i></b>', {
 3. **`execCommand('copy')` fallback** — used on non-HTTPS pages, when `navigator.clipboard` is unavailable, or when the async write throws. Uses a hidden `<span>` element. `preventDefault` is only called when `options.format` is set.
 4. **`window.prompt()` fallback** — opt-in via `options.fallbackToPrompt: true`.
 
+# Recipes
+
+## HTML copy with stripped plain-text fallback
+
+By default, `copy(html, { format: 'text/html' })` puts the raw HTML string in the `text/plain` slot of the `ClipboardItem`. If you want apps that only accept plain text to receive readable content instead of markup, use `onCopy` to supply a stripped version:
+
+```js
+function stripHtml(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
+const html = '<b>Hello <i>world</i></b>';
+
+await copy(html, {
+  format: 'text/html',
+  onCopy: () => new ClipboardItem({
+    'text/html': new Blob([html], { type: 'text/html' }),
+    'text/plain': new Blob([stripHtml(html)], { type: 'text/plain' }),
+  }),
+});
+// text/html  → '<b>Hello <i>world</i></b>'
+// text/plain → 'Hello world'
+```
+
+## Custom MIME type
+
+```js
+await copy('col1,col2\nval1,val2', {
+  format: 'text/csv',
+});
+// text/csv   → 'col1,col2\nval1,val2'
+// text/plain → 'col1,col2\nval1,val2'  (always included as fallback)
+```
+
+---
+
 # Browser support
 
 | Browser | Minimum | Notes |
