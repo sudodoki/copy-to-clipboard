@@ -56,9 +56,7 @@ var copyToClipboard = (() => {
       function buildClipboardItem(text, format) {
         var items = {};
         items["text/plain"] = new Blob([text], { type: "text/plain" });
-        if (format === "text/html") {
-          items["text/html"] = new Blob([text], { type: "text/html" });
-        } else if (format && format !== "text/plain") {
+        if (format && format !== "text/plain") {
           items[format] = new Blob([text], { type: format });
         }
         return new ClipboardItem(items);
