@@ -187,3 +187,4 @@ var copyToClipboard = (() => {
   var index_default = copy;
   return __toCommonJS(index_exports);
 })();
+copyToClipboard = copyToClipboard.default;

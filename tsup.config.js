@@ -13,6 +13,9 @@ module.exports = {
   },
   platform: 'browser',
   globalName: 'copyToClipboard',
+  footer({ format }) {
+    if (format === 'iife') return { js: 'copyToClipboard = copyToClipboard.default;' };
+  },
   clean: true,
   minify: false,
   noExternal: ['toggle-selection'],
