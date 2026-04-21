@@ -2,9 +2,10 @@
 
 /** @type {import('tsup').Options} */
 module.exports = {
-  entry: ['index.js'],
+  entry: ['index.ts'],
   format: ['cjs', 'esm', 'iife'],
   outDir: 'dist',
+  dts: true,
   outExtension({ format }) {
     if (format === 'cjs') return { js: '.cjs' };
     if (format === 'esm') return { js: '.mjs' };
