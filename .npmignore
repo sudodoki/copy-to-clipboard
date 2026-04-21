@@ -1,5 +1,6 @@
-e2e_helpers
-tests
-nightwatch.json
-selenium-debug.log
-index.html
+# Ignore everything by default
+*
+
+# Published output only
+!dist/
+!dist/**

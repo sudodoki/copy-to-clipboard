@@ -2,11 +2,42 @@
   "name": "copy-to-clipboard",
   "version": "3.3.3",
   "description": "Copy stuff into clipboard using JS with fallbacks",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "type": "commonjs",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "pretest": "browserify ./index.js --standalone copyToClipboard | uglifyjs -cm > example/index.js",
-    "test": "nightwatch"
+    "build": "tsup && cp dist/index.global.js example/index.js",
+    "typecheck": "tsc --noEmit",
+    "check": "publint",
+    "pretest": "npm run build",
+    "test": "nightwatch --env chrome",
+    "test:chrome": "nightwatch --env chrome",
+    "test:firefox": "nightwatch --env firefox",
+    "test:safari": "nightwatch --env safari",
+    "test:edge": "nightwatch --env edge",
+    "test:all": "nightwatch --env chrome,firefox,edge,safari",
+    "test:lt:firefox": "nightwatch --env lambdatest_firefox",
+    "test:lt:chrome": "nightwatch --env lambdatest_chrome",
+    "test:lt:safari": "nightwatch --env lambdatest_safari",
+    "test:lt:edge": "nightwatch --env lambdatest_edge",
+    "test:lt:all": "nightwatch --env lambdatest_firefox,lambdatest_chrome,lambdatest_safari,lambdatest_edge"
   },
   "keywords": [
     "clipboard",
@@ -17,7 +48,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sudodoki/copy-to-clipboard"
+    "url": "git+https://github.com/sudodoki/copy-to-clipboard.git"
   },
   "contributors": [
     {
@@ -25,19 +56,18 @@
       "url": "https://github.com/shvaikalesh"
     }
   ],
-  "dependencies": {
-    "toggle-selection": "^1.0.6"
-  },
   "directories": {
     "example": "example"
   },
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "minimist": "^1.2.6",
-    "nightwatch": "^2.3.0",
     "@brettz9/node-static": "^0.1.1",
-    "optimist": "^0.5.2",
-    "selenium-server-standalone-jar": "2.53.0",
-    "uglify-js": "^3.5.3"
+    "chromedriver": "^146.0.6",
+    "geckodriver": "^6.1.0",
+    "minimist": "^1.2.6",
+    "nightwatch": "^3.15.0",
+    "publint": "^0.3.18",
+    "toggle-selection": "^2.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   }
 }

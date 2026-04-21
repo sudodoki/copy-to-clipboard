@@ -11,7 +11,7 @@ module.exports = {
       //   console.log(result);
       // })
       .waitForElementVisible('body', 1000)
-      .assert.containsText('[data-test="heading"]', 'copy-to-clipboard Repo')
+      .assert.textContains('[data-test="heading"]', 'copy-to-clipboard Repo')
       .end();
   }
 };

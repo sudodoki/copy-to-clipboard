@@ -8,6 +8,7 @@
 <body>
   <h1 data-test="heading"><a href="http://github.com/sudodoki/copy-to-clipboard">copy-to-clipboard Repo</a></h1>
   <textarea data-test="placeholder"></textarea>
+  <div data-test="rich-placeholder" contenteditable="true" style="min-height:2em;border:1px solid #ccc;padding:4px;margin:4px 0;"></div>
   <div class="container">
     <h2 id="basic-text">Basic text copy</h2>
     <textarea disabled class="code half">copyToClipboard("Hello, I'm new content from your clipboard")</textarea>
@@ -39,27 +40,64 @@ for us to copy</textarea>
     </div>
   </div>
   <hr>
+  <div class="container">
+    <h2 id="rich-text">Rich text (HTML) copy</h2>
+    <textarea disabled class="code half">copyToClipboard('&lt;b&gt;Hello &lt;i&gt;world&lt;/i&gt;&lt;/b&gt;', { format: 'text/html' })</textarea>
+    <div class="half">
+      <button data-test="init-rich-text">Click to copy rich text</button>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h2 id="rich-text-custom-plain">Rich text with custom plain fallback</h2>
+    <textarea disabled class="code half">copyToClipboard('&lt;b&gt;Hello &lt;i&gt;world&lt;/i&gt;&lt;/b&gt;', {
+  format: 'text/html',
+  onCopy: () =&gt; new ClipboardItem({
+    'text/html': new Blob(['&lt;b&gt;Hello &lt;i&gt;world&lt;/i&gt;&lt;/b&gt;'], { type: 'text/html' }),
+    'text/plain': new Blob(['Hello plain world'], { type: 'text/plain' }),
+  })
+})</textarea>
+    <div class="half">
+      <button data-test="init-rich-text-custom-plain">Click to copy rich text with custom plain</button>
+    </div>
+  </div>
+  <hr>
   <script src="./index.js"></script>
   <script>
     document.querySelector('#basic-text ~ .half button')
-      .addEventListener('click', function () {
-        copyToClipboard("Hello, I'm new content from your clipboard")
+      .addEventListener('click', async function () {
+        await copyToClipboard("Hello, I'm new content from your clipboard");
       });
     (function() {
       var multilineContainer = document.querySelector('#multiline-text + textarea');
       document.querySelector('#multiline-text ~ .half button')
-        .addEventListener('click', function () {
-          copyToClipboard(multilineContainer.textContent)
-        })
+        .addEventListener('click', async function () {
+          await copyToClipboard(multilineContainer.textContent);
+        });
     })();
     (function() {
       var markupContainer = document.querySelector('#multiline-markup + textarea');
       document.querySelector('#multiline-markup ~ .half button')
-        .addEventListener('click', function () {
-          copyToClipboard(markupContainer.textContent)
-        })
+        .addEventListener('click', async function () {
+          await copyToClipboard(markupContainer.textContent);
+        });
     })();
-
+    document.querySelector('#rich-text ~ .half button')
+      .addEventListener('click', async function () {
+        await copyToClipboard('<b>Hello <i>world</i></b>', { format: 'text/html' });
+      });
+    document.querySelector('#rich-text-custom-plain ~ .half button')
+      .addEventListener('click', async function () {
+        await copyToClipboard('<b>Hello <i>world</i></b>', {
+          format: 'text/html',
+          onCopy: function() {
+            return new ClipboardItem({
+              'text/html': new Blob(['<b>Hello <i>world</i></b>'], { type: 'text/html' }),
+              'text/plain': new Blob(['Hello plain world'], { type: 'text/plain' }),
+            });
+          },
+        });
+      });
   </script>
 </body>
 </html>
