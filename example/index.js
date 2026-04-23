@@ -134,15 +134,27 @@ var copyToClipboard = (() => {
     });
     return mark;
   }
+  function findOpenedModalDialog() {
+    let element = document.activeElement;
+    while (element) {
+      if (element.tagName === "DIALOG" && element.open) {
+        return element;
+      }
+      element = element.parentElement;
+    }
+    return null;
+  }
   function copyViaExecCommand(text, options) {
     var reselectPrevious = toggle_selection_default();
     var range = document.createRange();
     var selection = document.getSelection();
     var mark = createHiddenSpan(text, options);
+    var root = findOpenedModalDialog() || document.body;
     var success = false;
     try {
-      document.body.appendChild(mark);
+      root.appendChild(mark);
       range.selectNodeContents(mark);
+      selection.removeAllRanges();
       selection.addRange(range);
       var successful = document.execCommand("copy");
       if (!successful) {
@@ -155,7 +167,7 @@ var copyToClipboard = (() => {
       } else {
         selection.removeAllRanges();
       }
-      document.body.removeChild(mark);
+      root.removeChild(mark);
       reselectPrevious();
     }
     return success;
