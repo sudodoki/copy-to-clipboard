@@ -90,16 +90,29 @@ function createHiddenSpan(text: string, options: Options): HTMLSpanElement {
   return mark;
 }
 
+function findOpenedModalDialog(): Element | null {
+  let element = document.activeElement as Element | null;
+  while (element) {
+    if (element.tagName === 'DIALOG' && (element as HTMLDialogElement).open) {
+      return element;
+    }
+    element = element.parentElement;
+  }
+  return null;
+}
+
 function copyViaExecCommand(text: string, options: Options): boolean {
   var reselectPrevious = deselectCurrent();
   var range = document.createRange();
   var selection = document.getSelection();
   var mark = createHiddenSpan(text, options);
+  var root = findOpenedModalDialog() || document.body;
   var success = false;
 
   try {
-    document.body.appendChild(mark);
+    root.appendChild(mark);
     range.selectNodeContents(mark);
+    selection!.removeAllRanges();
     selection!.addRange(range);
 
     var successful = document.execCommand("copy");
@@ -113,7 +126,7 @@ function copyViaExecCommand(text: string, options: Options): boolean {
     } else {
       selection!.removeAllRanges();
     }
-    document.body.removeChild(mark);
+    root.removeChild(mark);
     reselectPrevious();
   }
 

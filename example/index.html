@@ -62,6 +62,19 @@ for us to copy</textarea>
     </div>
   </div>
   <hr>
+  <div class="container">
+    <h2 id="dialog-copy">Copy inside modal dialog</h2>
+    <textarea disabled class="code half">copyToClipboard("Hello from dialog")</textarea>
+    <div class="half">
+      <button data-test="open-modal-dialog">Open dialog and copy</button>
+    </div>
+  </div>
+  <dialog data-test="modal-dialog">
+    <p>This is a modal dialog.</p>
+    <button data-test="copy-inside-dialog">Copy text from inside dialog</button>
+    <button data-test="close-dialog">Close</button>
+  </dialog>
+  <hr>
   <script src="./index.js"></script>
   <script>
     document.querySelector('#basic-text ~ .half button')
@@ -98,6 +111,21 @@ for us to copy</textarea>
           },
         });
       });
+    (function() {
+      var dialog = document.querySelector('[data-test="modal-dialog"]');
+      document.querySelector('[data-test="open-modal-dialog"]')
+        .addEventListener('click', function () {
+          dialog.showModal();
+        });
+      document.querySelector('[data-test="copy-inside-dialog"]')
+        .addEventListener('click', async function () {
+          await copyToClipboard("Hello from dialog");
+        });
+      document.querySelector('[data-test="close-dialog"]')
+        .addEventListener('click', function () {
+          dialog.close();
+        });
+    })();
   </script>
 </body>
 </html>
