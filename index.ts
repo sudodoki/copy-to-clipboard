@@ -106,7 +106,7 @@ function copyViaExecCommand(text: string, options: Options): boolean {
   var range = document.createRange();
   var selection = document.getSelection();
   var mark = createHiddenSpan(text, options);
-  var root = findOpenedModalDialog() || document.body;
+  var root = findOpenedModalDialog() || document.fullscreenElement || document.body;
   var success = false;
 
   try {
