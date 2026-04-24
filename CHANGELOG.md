@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.0.2
+
+[compare changes](https://github.com/sudodoki/copy-to-clipboard/compare/v4.0.1...v4.0.2)
+
+### 🩹 Fixes
+
+- Make sure execCommand works in fullscreen ([#158](https://github.com/sudodoki/copy-to-clipboard/pull/158))
+
+### 🏡 Chore
+
+- Bump axios from 1.14.0 to 1.15.2 ([#155](https://github.com/sudodoki/copy-to-clipboard/pull/155))
+- Bump follow-redirects from 1.15.11 to 1.16.0 ([#157](https://github.com/sudodoki/copy-to-clipboard/pull/157))
+- Bump basic-ftp from 5.2.0 to 5.3.0 ([#156](https://github.com/sudodoki/copy-to-clipboard/pull/156))
+
+### ❤️ Contributors
+
+- Джон, Просто Джон ([@sudodoki](https://github.com/sudodoki))
+
 ## v4.0.1
 
 [compare changes](https://github.com/sudodoki/copy-to-clipboard/compare/v4.0.0...v4.0.1)
