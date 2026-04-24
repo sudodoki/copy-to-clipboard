@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.0.1
+
+[compare changes](https://github.com/sudodoki/copy-to-clipboard/compare/v4.0.0...v4.0.1)
+
+### 🏡 Chore
+
+- Fix copy in modal for execCommand fallback ([#151](https://github.com/sudodoki/copy-to-clipboard/pull/151))
+- Add changelog ([#153](https://github.com/sudodoki/copy-to-clipboard/pull/153))
+
+### ✅ Tests
+
+- Add e2e scenario for modal tests ([#152](https://github.com/sudodoki/copy-to-clipboard/pull/152))
+
+### ❤️ Contributors
+
+- Джон, Просто Джон ([@sudodoki](https://github.com/sudodoki))
+
 ## v4.0.0
 
 [compare changes](https://github.com/sudodoki/copy-to-clipboard/compare/v3.3.3...v4.0.0)

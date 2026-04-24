@@ -1,6 +1,6 @@
 {
   "name": "copy-to-clipboard",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Copy stuff into clipboard using JS with fallbacks",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
