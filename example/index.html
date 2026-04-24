@@ -75,6 +75,21 @@ for us to copy</textarea>
     <button data-test="close-dialog">Close</button>
   </dialog>
   <hr>
+  <div class="container">
+    <h2 id="fullscreen-copy">Copy inside fullscreen element</h2>
+    <textarea disabled class="code half">// execCommand fails in fullscreen; navigator.clipboard works
+copyToClipboard("Hello from fullscreen")</textarea>
+    <div class="half">
+      <button data-test="open-fullscreen">Enter fullscreen and copy</button>
+    </div>
+  </div>
+  <div data-test="fullscreen-container" style="display:none; position:fixed; inset:0; background:#1a1a2e; color:#fff; flex-direction:column; align-items:center; justify-content:center; gap:16px; z-index:9999;">
+    <p style="font-size:1.2em;">You are in fullscreen mode.</p>
+    <button data-test="copy-inside-fullscreen">Copy text from inside fullscreen</button>
+    <div data-test="fullscreen-result" style="font-size:0.9em; color:#aef;"></div>
+    <button data-test="exit-fullscreen">Exit fullscreen</button>
+  </div>
+  <hr>
   <script src="./index.js"></script>
   <script>
     document.querySelector('#basic-text ~ .half button')
@@ -125,6 +140,38 @@ for us to copy</textarea>
         .addEventListener('click', function () {
           dialog.close();
         });
+    })();
+    (function() {
+      var fsContainer = document.querySelector('[data-test="fullscreen-container"]');
+      var fsResult = document.querySelector('[data-test="fullscreen-result"]');
+
+      document.querySelector('[data-test="open-fullscreen"]')
+        .addEventListener('click', function () {
+          fsContainer.style.display = 'flex';
+          fsContainer.requestFullscreen().catch(function(err) {
+            fsResult.textContent = 'Fullscreen error: ' + err.message;
+          });
+        });
+
+      document.querySelector('[data-test="copy-inside-fullscreen"]')
+        .addEventListener('click', async function () {
+          var ok = await copyToClipboard("Hello from fullscreen");
+          fsResult.textContent = ok ? 'Copied! Paste to verify.' : 'Copy failed.';
+        });
+
+      document.querySelector('[data-test="exit-fullscreen"]')
+        .addEventListener('click', function () {
+          if (document.fullscreenElement) document.exitFullscreen();
+          fsContainer.style.display = 'none';
+          fsResult.textContent = '';
+        });
+
+      document.addEventListener('fullscreenchange', function () {
+        if (!document.fullscreenElement) {
+          fsContainer.style.display = 'none';
+          fsResult.textContent = '';
+        }
+      });
     })();
   </script>
 </body>
