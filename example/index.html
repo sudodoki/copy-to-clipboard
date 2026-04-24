@@ -63,6 +63,14 @@ for us to copy</textarea>
   </div>
   <hr>
   <div class="container">
+    <h2 id="tabbed-text">Tab-separated + CRLF text copy</h2>
+    <textarea disabled class="code half">copyToClipboard("Dapibus\t1\r\nUltricies\t20\r\nInceptos\t444\r\n")</textarea>
+    <div class="half">
+      <button data-test="init-tabbed-text">Click to copy tab/CRLF text</button>
+    </div>
+  </div>
+  <hr>
+  <div class="container">
     <h2 id="dialog-copy">Copy inside modal dialog</h2>
     <textarea disabled class="code half">copyToClipboard("Hello from dialog")</textarea>
     <div class="half">
@@ -125,6 +133,10 @@ copyToClipboard("Hello from fullscreen")</textarea>
             });
           },
         });
+      });
+    document.querySelector('#tabbed-text ~ .half button')
+      .addEventListener('click', async function () {
+        await copyToClipboard("Dapibus\t1\r\nUltricies\t20\r\nInceptos\t444\r\n");
       });
     (function() {
       var dialog = document.querySelector('[data-test="modal-dialog"]');
