@@ -23,6 +23,10 @@
     "dist"
   ],
   "scripts": {
+    "changelog": "npx changelogen@0.6.2 --no-bump --output CHANGELOG.md",
+    "release:patch": "npx changelogen@0.6.2 --release --patch",
+    "release:minor": "npx changelogen@0.6.2 --release --minor",
+    "release:major": "npx changelogen@0.6.2 --release --major",
     "build": "tsup && cp dist/index.global.js example/index.js",
     "typecheck": "tsc --noEmit",
     "check": "publint",
